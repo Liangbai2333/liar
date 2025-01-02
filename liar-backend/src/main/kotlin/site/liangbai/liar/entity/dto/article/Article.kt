@@ -3,7 +3,7 @@ package site.liangbai.liar.entity.dto.article
 import com.baomidou.mybatisplus.annotation.IdType
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
-import java.util.*
+import java.time.LocalDateTime
 
 @TableName("articles")
 data class Article(
@@ -14,8 +14,8 @@ data class Article(
     var motto: String? = null,
     var content: String? = null,
     var cover: String? = null,
-    var categoryId: Int? = null,
+    var category: Category? = null,
     var views: Int? = null,
-    var createTime: Date? = null,
-    var updateTime: Date? = null
+    var createTime: LocalDateTime? = null,
+    var updateTime: LocalDateTime? = null
 )

@@ -3,7 +3,7 @@ package site.liangbai.liar.entity.dto.user
 import com.baomidou.mybatisplus.annotation.IdType
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
-import java.util.*
+import java.time.LocalDateTime
 
 @TableName("skill_categories")
 data class SkillCategory(
@@ -11,6 +11,6 @@ data class SkillCategory(
     var id: Int? = null,
     var userId: Int? = null,
     var name: String? = null,
-    var createTime: Date? = null,
-    var updateTime: Date? = null
+    var createTime: LocalDateTime? = null,
+    var updateTime: LocalDateTime? = null
 )

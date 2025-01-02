@@ -3,7 +3,7 @@ package site.liangbai.liar.entity.dto.user
 import com.baomidou.mybatisplus.annotation.IdType
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
-import java.util.*
+import java.time.LocalDateTime
 
 @TableName("contacts")
 data class Contact(
@@ -15,6 +15,6 @@ data class Contact(
     var name: String? = null,
     var value: String? = null,
     var link: String? = null,
-    var createTime: Date? = null,
-    var updateTime: Date? = null
+    var createTime: LocalDateTime? = null,
+    var updateTime: LocalDateTime? = null
 )

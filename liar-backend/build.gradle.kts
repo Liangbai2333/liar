@@ -32,11 +32,11 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
-    // Alibaba
+    // alibaba
     implementation("com.alibaba.fastjson2:fastjson2-kotlin:2.0.53")
     implementation("com.alibaba.fastjson2:fastjson2-extension-spring6:2.0.53")
 
-    // Mybatis-plus
+    // mybatis-plus
     implementation("com.baomidou:mybatis-plus-spring-boot3-starter:3.5.9")
 
     implementation("org.jetbrains.kotlin:kotlin-reflect")
