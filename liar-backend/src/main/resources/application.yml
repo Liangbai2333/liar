@@ -1,3 +1,17 @@
+server:
+  address: 0.0.0.0
+  port: 8888
+
 spring:
   application:
     name: liar
+  datasource:
+    url: "jdbc:mysql://localhost:3306/liar"
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      schema-locations: liar.sql
+      mode: embedded
+
