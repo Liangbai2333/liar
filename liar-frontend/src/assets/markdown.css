@@ -1,0 +1,128 @@
+/* 基础样式 */
+.markdown-body {
+  color: var(--text-primary);
+  font-size: 16px;
+  line-height: 1.7;
+  padding: 1rem 0;
+}
+
+/* 标题 */
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4 {
+  margin: 2.5rem 0 1.5rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.markdown-body h1 { font-size: 2rem; }
+.markdown-body h2 { font-size: 1.5rem; }
+.markdown-body h3 { font-size: 1.25rem; }
+.markdown-body h4 { font-size: 1rem; }
+
+/* 段落和列表 */
+.markdown-body p,
+.markdown-body ul,
+.markdown-body ol {
+  margin: 1.2em 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 1.5em;
+}
+
+/* 代码块 */
+.markdown-body pre {
+  margin: 1.2em 0;
+  padding: 0;
+  background: var(--code-bg, #282c34);
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.markdown-body pre code {
+  display: block;
+  padding: 1em;
+  font-family: 'SF Mono', Monaco, Menlo, Consolas, 'Courier New', monospace;
+  font-size: 0.875em;
+  line-height: 1.5;
+  overflow-x: auto;
+  color: var(--code-text, #abb2bf);
+}
+
+/* 行内代码 */
+.markdown-body :not(pre) > code {
+  padding: 0.2em 0.4em;
+  margin: 0 0.2em;
+  font-size: 0.875em;
+  background: var(--inline-code-bg, rgba(100,108,255,0.08));
+  color: var(--inline-code-text, #476582);
+  border-radius: 4px;
+  border: 1px solid var(--border-color);
+}
+
+/* 引用块 */
+.markdown-body blockquote {
+  margin: 1.2em 0;
+  padding: 0.8em 1em;
+  border-left: 4px solid #646cff;
+  background: rgba(100,108,255,0.08);
+  border-radius: 0 4px 4px 0;
+}
+
+.markdown-body blockquote > p {
+  margin: 0;
+}
+
+/* 代码高亮 - 暗色主题 */
+[data-theme="dark"] .hljs-keyword,
+[data-theme="dark"] .hljs-tag { color: #c678dd; }
+[data-theme="dark"] .hljs-string { color: #98c379; }
+[data-theme="dark"] .hljs-number { color: #d19a66; }
+[data-theme="dark"] .hljs-function { color: #61afef; }
+[data-theme="dark"] .hljs-title { color: #61afef; }
+[data-theme="dark"] .hljs-params { color: #abb2bf; }
+[data-theme="dark"] .hljs-comment { color: #5c6370; font-style: italic; }
+[data-theme="dark"] .hljs-attr { color: #d19a66; }
+[data-theme="dark"] .hljs-built_in { color: #56b6c2; }
+
+/* 代码高亮 - 亮色主题 */
+[data-theme="light"] .hljs-keyword,
+[data-theme="light"] .hljs-tag { color: #9c27b0; }
+[data-theme="light"] .hljs-string { color: #388e3c; }
+[data-theme="light"] .hljs-number { color: #f57c00; }
+[data-theme="light"] .hljs-function { color: #0277bd; }
+[data-theme="light"] .hljs-title { color: #0277bd; }
+[data-theme="light"] .hljs-params { color: #444444; }
+[data-theme="light"] .hljs-comment { color: #888888; font-style: italic; }
+[data-theme="light"] .hljs-attr { color: #f57c00; }
+[data-theme="light"] .hljs-built_in { color: #0097a7; }
+
+/* 语言标签 */
+.markdown-body pre::before {
+  content: attr(data-lang);
+  position: absolute;
+  top: 0.5em;
+  right: 1em;
+  font-size: 0.75em;
+  color: var(--code-tag-text, rgba(235,235,235,0.6));
+  font-family: sans-serif;
+  text-transform: uppercase;
+}
+
+/* 滚动条 */
+.markdown-body pre::-webkit-scrollbar {
+  height: 6px;
+}
+
+.markdown-body pre::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb, #4a4a4a);
+  border-radius: 3px;
+}
+
+.markdown-body pre::-webkit-scrollbar-track {
+  background: transparent;
+} 

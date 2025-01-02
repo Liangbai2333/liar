@@ -31,6 +31,12 @@ body {
   --hover-color: #79bbff;
   --hover-bg: rgba(64, 158, 255, 0.1);
   --border-color: #e4e7ed;
+  --code-bg: #f6f8fa;
+  --code-text: #24292e;
+  --code-tag-text: #666666;
+  --inline-code-bg: rgba(27, 31, 35, 0.05);
+  --inline-code-text: #24292e;
+  --scrollbar-thumb: #d1d5db;
 }
 
 /* 暗色主题变量 */
@@ -44,6 +50,12 @@ body {
   --hover-color: #79bbff;
   --hover-bg: rgba(64, 158, 255, 0.1);
   --border-color: #363637;
+  --code-bg: #282c34;
+  --code-text: #abb2bf;
+  --code-tag-text: rgba(235,235,235,0.6);
+  --inline-code-bg: rgba(100,108,255,0.08);
+  --inline-code-text: #c0caf5;
+  --scrollbar-thumb: #4a4a4a;
 }
 
 /* 基础链接样式 */
@@ -56,4 +68,13 @@ a {
 img {
   max-width: 100%;
   height: auto;
+}
+
+[data-theme="dark"] {
+  --code-bg: #282c34;
+  --code-text: #abb2bf;
+  --code-tag-text: rgba(235,235,235,0.6);
+  --inline-code-bg: rgba(100,108,255,0.08);
+  --inline-code-text: #c0caf5;
+  --scrollbar-thumb: #4a4a4a;
 }

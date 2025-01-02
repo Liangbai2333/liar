@@ -1,8 +1,11 @@
 import axios from 'axios'
 
+// 统一使用 8080 端口
+const baseURL = 'http://localhost:8080'
+
 // 创建 axios 实例
 const service = axios.create({
-  baseURL: '/api',
+  baseURL,
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json'

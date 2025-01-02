@@ -3,8 +3,6 @@ import { usePostsStore } from '../stores/posts'
 import PostCard from '../components/PostCard.vue'
 
 const postsStore = usePostsStore()
-
-
 </script>
 
 <template>
