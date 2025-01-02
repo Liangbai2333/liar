@@ -47,7 +47,7 @@
         <div class="author-card">
           <div class="author-info">
             <div class="author-avatar">
-              <!-- <img src="/avatar.jpg" alt="作者头像"> -->
+              <img src="@/assets/avatar.jpg" alt="作者头像">
             </div>
             <div class="author-meta">
               <h3 class="author-name">靓白</h3>
@@ -465,6 +465,7 @@ onMounted(() => {
   line-height: 1.4;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

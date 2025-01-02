@@ -1,8 +1,19 @@
 <script setup>
 import { usePostsStore } from '../stores/posts'
 import PostCard from '../components/PostCard.vue'
+import { computed } from 'vue'
 
 const postsStore = usePostsStore()
+
+// 创建一个计算属性来获取随机的3个帖子
+const randomPosts = computed(() => {
+  const posts = [...postsStore.posts]
+  for (let i = posts.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [posts[i], posts[j]] = [posts[j], posts[i]]
+  }
+  return posts.slice(0, 3)
+})
 </script>
 
 <template>
@@ -16,7 +27,7 @@ const postsStore = usePostsStore()
 
     <main class="content">
       <div class="posts-grid">
-        <PostCard v-for="post in postsStore.posts.slice(0, 3)" 
+        <PostCard v-for="post in randomPosts" 
                  :key="post.title" 
                  :post="post" />
       </div>

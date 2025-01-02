@@ -1,1 +1,1 @@
-rootProject.name = "liar-backend"
+rootProject.name = "liar"

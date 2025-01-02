@@ -4,7 +4,7 @@
       <div class="header-content">
         <div class="profile-header">
           <div class="avatar-container">
-            
+            <img src="@/assets/avatar.jpg" alt="作者头像">
           </div>
           <h1 class="name">靓白</h1>
           <p class="motto">" 保持热爱，奔赴山海 "</p>
@@ -91,17 +91,17 @@
           <h2>📫 联系我</h2>
           <div class="section-content">
             <div class="contact-list">
-              <a href="https://github.com/liangbai2333" target="_blank" class="contact-item">
+              <a href="https://github.com/Liangbai2333" target="_blank" class="contact-item">
                 <span class="contact-icon">🐱</span>
                 <span class="contact-text">GitHub</span>
               </a>
               <div class="contact-item">
                 <span class="contact-icon">📧</span>
-                <span class="contact-text">liangbai2333@gmail.com</span>
+                <span class="contact-text">liangbai2333@outlook.com</span>
               </div>
               <div class="contact-item">
                 <span class="contact-icon">💬</span>
-                <span class="contact-text">QQ: 2544704967</span>
+                <span class="contact-text">QQ: 1739566851</span>
               </div>
             </div>
           </div>

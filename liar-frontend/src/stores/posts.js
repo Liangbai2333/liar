@@ -1,9 +1,9 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import image1 from '../assets/img/1702044245889.png'
-import image2 from '../assets/img/1717562426845.png'
-import image3 from '../assets/img/4453bd510cf678d78de10216e5d0fc4472233788.jpg'
-import { API, articleApi } from '../api'
+import image1 from '@/assets/img/1702044245889.png'
+import image2 from '@/assets/img/1717562426845.png'
+import image3 from '@/assets/img/4453bd510cf678d78de10216e5d0fc4472233788.jpg'
+import { API, articleApi } from '@/api'
 
 export const usePostsStore = defineStore('posts', () => {
     const fetchPosts = async () => {
