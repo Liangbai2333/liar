@@ -11,7 +11,7 @@ class ArticleController {
     lateinit var articleService: ArticleService
 
     @PostMapping("view/{id}")
-    fun viewArticle(@PathVariable("id") id: Int) {
+    suspend fun viewArticle(@PathVariable("id") id: Int) {
         return articleService.viewArticle(id).run { successResult() }
     }
 

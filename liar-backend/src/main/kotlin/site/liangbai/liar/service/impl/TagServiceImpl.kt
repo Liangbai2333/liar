@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 import jakarta.annotation.Resource
 import site.liangbai.liar.entity.dto.article.ArticleTag
 import site.liangbai.liar.entity.dto.article.Tag
+import site.liangbai.liar.entity.vo.response.article.TagVO
 import site.liangbai.liar.mapper.article.ArticleTagMapper
 import site.liangbai.liar.mapper.article.TagMapper
 import site.liangbai.liar.service.TagService
@@ -23,5 +24,9 @@ class TagServiceImpl : ServiceImpl<TagMapper, Tag>(), TagService {
 
     override fun getTagByName(name: String): Tag? {
         return lambdaQuery().eq(Tag::name, name).one()
+    }
+
+    override fun getTagList(): List<TagVO> {
+        return lambdaQuery().list()?.map { TagVO.internalTransform(it) } ?: emptyList()
     }
 }

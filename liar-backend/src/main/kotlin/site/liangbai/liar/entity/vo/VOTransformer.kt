@@ -2,7 +2,7 @@ package site.liangbai.liar.entity.vo
 
 interface VOTransformer<E, V> {
     fun fromEntity(entity: E?): V? {
-        return if (entity != null) internalTransform(entity) else null
+        return entity?.let { internalTransform(it) }
     }
 
     fun internalTransform(entity: E): V

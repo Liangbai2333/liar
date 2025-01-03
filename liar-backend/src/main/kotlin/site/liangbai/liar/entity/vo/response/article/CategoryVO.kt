@@ -10,7 +10,6 @@ data class CategoryVO(
     val icon: String,
     val color: String,
 ) {
-    
     companion object : VOTransformer<Category, CategoryVO> {
         override fun internalTransform(entity: Category): CategoryVO {
             return CategoryVO(

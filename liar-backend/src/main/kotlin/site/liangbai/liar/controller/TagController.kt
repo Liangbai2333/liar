@@ -4,15 +4,15 @@ import jakarta.annotation.Resource
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 import site.liangbai.liar.entity.Result.Companion.successResult
-import site.liangbai.liar.service.CategoryService
+import site.liangbai.liar.service.TagService
 
-@RestController("api/category")
-class CategoryController {
+@RestController("api/tag")
+class TagController {
     @Resource
-    lateinit var categoryService: CategoryService
+    lateinit var tagService: TagService
 
     @GetMapping("list")
-    fun getCategoryList() {
-        return categoryService.getCategoryList().run { successResult(this) }
+    fun getTagList() {
+        return tagService.getTagList().run { successResult(this) }
     }
 }
