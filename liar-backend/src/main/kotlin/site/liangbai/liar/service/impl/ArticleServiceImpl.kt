@@ -12,24 +12,6 @@ class ArticleServiceImpl(
     private val articleMapper: ArticleMapper,
     private val categoryService: CategoryService
 ) : ServiceImpl<ArticleMapper, Article>(), ArticleService {
-    override fun saveArticle(article: Article) {
-        article.category?.let {
-            if (it.id == null) {
-                categoryService.save(it)
-            } else {
-                categoryService.updateById(it)
-            }
-        }
-        save(article)
-    }
-
-    override fun updateArticle(article: Article) {
-        article.category?.let {
-            categoryService.updateById(it)
-        }
-        updateById(article)
-    }
-
     override fun getArticleById(id: Int): Article {
         return articleMapper.getArticleById(id)
     }

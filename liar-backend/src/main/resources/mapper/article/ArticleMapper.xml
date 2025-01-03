@@ -54,5 +54,4 @@
         LEFT JOIN categories c ON a.category_id = c.id
         WHERE a.id = #{id}
     </select>
-
 </mapper>

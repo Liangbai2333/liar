@@ -14,8 +14,10 @@ data class Article(
     var motto: String? = null,
     var content: String? = null,
     var cover: String? = null,
-    var category: Category? = null,
+    var categoryId: Int? = null,
     var views: Int? = null,
+    var authorId: Int? = null,
+    var priority: Int? = null,
     var createTime: LocalDateTime? = null,
     var updateTime: LocalDateTime? = null
 )
