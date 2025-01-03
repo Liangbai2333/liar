@@ -5,4 +5,6 @@ import site.liangbai.liar.entity.dto.article.Tag
 
 interface TagService : IService<Tag> {
     fun getTagsByArticleId(articleId: Int): List<Tag>
+
+    fun getTagByName(name: String): Tag?
 }

@@ -6,7 +6,4 @@ import site.liangbai.liar.mapper.user.UserMapper
 import site.liangbai.liar.service.UserService
 
 class UserServiceImpl : ServiceImpl<UserMapper, User>(), UserService {
-    override fun getUserById(id: Int): User {
-        return getById(id)
-    }
 }

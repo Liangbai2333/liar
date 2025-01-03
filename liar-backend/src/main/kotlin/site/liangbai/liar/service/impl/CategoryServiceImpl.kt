@@ -8,7 +8,7 @@ import site.liangbai.liar.service.CategoryService
 
 @Service
 class CategoryServiceImpl : ServiceImpl<CategoryMapper, Category>(), CategoryService {
-    override fun getCategoryById(id: Int): Category {
-        return getById(id)
+    override fun getCategoryByName(name: String): Category? {
+        return lambdaQuery().eq(Category::name, name).one()
     }
 }

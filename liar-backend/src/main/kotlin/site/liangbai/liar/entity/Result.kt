@@ -21,7 +21,23 @@ data class Result<T>(val code: Int, val data: T? = null, val msg: String) {
             return success(null, message)
         }
 
+        fun success(): Result<Unit> {
+            return success(null, "success")
+        }
+
         fun <T> failure(code: Int, message: String): Result<T> {
+            return Result(code, null, message)
+        }
+
+        fun successResult(): Result<Unit> {
+            return success(null, "success")
+        }
+
+        fun <T> successResult(data: T?): Result<T> {
+            return Result(200, data, "success")
+        }
+
+        fun failureResult(code: Int, message: String): Result<Any> {
             return Result(code, null, message)
         }
     }

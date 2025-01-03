@@ -11,6 +11,6 @@ object InterestExtension : BaseEntityExtension<Interest>() {
 
     val Interest.user: User?
         get() = getOrPutValue("user") {
-            this.userId?.let { userService.getUserById(it) }
+            this.userId?.let { userService.getById(it) }
         }
 }

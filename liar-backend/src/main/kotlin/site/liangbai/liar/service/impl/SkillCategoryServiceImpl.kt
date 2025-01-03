@@ -7,7 +7,4 @@ import site.liangbai.liar.mapper.user.SkillCategoryMapper
 import site.liangbai.liar.service.SkillCategoryService
 
 class SkillCategoryServiceImpl : ServiceImpl<SkillCategoryMapper, SkillCategory>(), SkillCategoryService {
-    override fun getSkillCategoryById(id: Int): SkillCategory {
-        return getById(id)
-    }
 }

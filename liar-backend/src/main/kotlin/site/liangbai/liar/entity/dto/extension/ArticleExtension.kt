@@ -24,7 +24,7 @@ object ArticleExtension : BaseEntityExtension<Article>() {
 
     val Article.category: Category?
         get() = getOrPutValue("category") {
-            this.categoryId?.let { categoryService.getCategoryById(it) }
+            this.categoryId?.let { categoryService.getById(it) }
         }
 
     val Article.tags: List<Tag>?
@@ -34,7 +34,7 @@ object ArticleExtension : BaseEntityExtension<Article>() {
 
     val Article.author: User?
         get() = getOrPutValue("author") {
-            this.authorId?.let { userService.getUserById(it) }
+            this.authorId?.let { userService.getById(it) }
         }
 
     fun Article.saveArticle(saveCategory: Boolean = false, saveTags: Boolean = false, saveUser: Boolean = false) {

@@ -20,4 +20,8 @@ class TagServiceImpl : ServiceImpl<TagMapper, Tag>(), TagService {
             baseMapper.selectById(it.tagId)
         }
     }
+
+    override fun getTagByName(name: String): Tag? {
+        return lambdaQuery().eq(Tag::name, name).one()
+    }
 }

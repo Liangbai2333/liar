@@ -11,6 +11,6 @@ object SkillCategoryExtension : BaseEntityExtension<SkillCategory>() {
 
     val SkillCategory.user: User?
         get() = getOrPutValue("user") {
-            this.userId?.let { userService.getUserById(it) }
+            this.userId?.let { userService.getById(it) }
         }
 }
