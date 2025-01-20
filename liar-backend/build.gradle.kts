@@ -31,6 +31,9 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
+    // jwt
+    implementation("com.auth0:java-jwt:4.3.0")
+
     // alibaba
     implementation("com.alibaba.fastjson2:fastjson2-kotlin:2.0.53")
     implementation("com.alibaba.fastjson2:fastjson2-extension-spring6:2.0.53")

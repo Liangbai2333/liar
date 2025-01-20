@@ -40,5 +40,9 @@ data class Result<T>(val code: Int, val data: T? = null, val msg: String) {
         fun failureResult(code: Int, message: String): Result<Any> {
             return Result(code, null, message)
         }
+
+        fun forbiddenResult(message: String): Result<Any> {
+            return failureResult(403, message)
+        }
     }
 }

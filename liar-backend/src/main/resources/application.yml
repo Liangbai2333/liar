@@ -14,6 +14,22 @@ spring:
     redis:
       host: localhost
       port: 6379
-  rabbitmq:
-    host: localhost
-    password: guest
+  security:
+    jwt:
+      key: 'abcdefghijklmn'
+      expire: 144
+      limit:
+        base: 10
+        upgrade: 300
+        frequency: 30
+    filter:
+      order: -100
+  web:
+    flow:
+      period: 3
+      limit: 50
+      block: 30
+    cors:
+      origin: '*'
+      credentials: false
+      methods: '*'
