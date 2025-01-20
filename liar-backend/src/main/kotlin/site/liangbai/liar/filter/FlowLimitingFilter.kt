@@ -6,7 +6,6 @@ import jakarta.servlet.ServletException
 import jakarta.servlet.http.HttpFilter
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
-import lombok.extern.slf4j.Slf4j
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.annotation.Order
 import org.springframework.data.redis.core.StringRedisTemplate
@@ -20,7 +19,6 @@ import java.io.IOException
  * 限流控制过滤器
  * 防止用户高频请求接口，借助Redis进行限流
  */
-@Slf4j
 @Component
 @Order(Const.ORDER_FLOW_LIMIT)
 class FlowLimitingFilter : HttpFilter() {

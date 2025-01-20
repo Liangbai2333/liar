@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
+import site.liangbai.liar.util.Const
 import site.liangbai.liar.util.JwtUtils
 import java.io.IOException
 
@@ -36,6 +37,7 @@ class JwtAuthenticationFilter : OncePerRequestFilter() {
                 UsernamePasswordAuthenticationToken(user, null, user.authorities)
             authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
             SecurityContextHolder.getContext().authentication = authentication
+            request.setAttribute(Const.ATTR_USER_ID, utils.toId(jwt))
         }
         filterChain.doFilter(request, response)
     }

@@ -19,6 +19,7 @@ import site.liangbai.liar.entity.Result.Companion.successResult
 import site.liangbai.liar.entity.Result.Companion.unauthorizedResult
 import site.liangbai.liar.entity.vo.response.auth.AuthorizeVO
 import site.liangbai.liar.filter.JwtAuthenticationFilter
+import site.liangbai.liar.filter.RequestLogFilter
 import site.liangbai.liar.service.AccountContextService
 import site.liangbai.liar.util.JwtUtils
 import java.io.IOException
@@ -60,7 +61,8 @@ class SecurityConfiguration {
             .sessionManagement { conf ->
                 conf.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
-            .addFilterBefore(JwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterBefore(RequestLogFilter(), UsernamePasswordAuthenticationFilter::class.java)
+            .addFilterBefore(JwtAuthenticationFilter(), RequestLogFilter::class.java)
             .build()
     }
 

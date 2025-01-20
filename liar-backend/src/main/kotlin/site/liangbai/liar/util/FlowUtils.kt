@@ -1,7 +1,6 @@
 package site.liangbai.liar.util
 
 import jakarta.annotation.Resource
-import lombok.extern.slf4j.Slf4j
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.stereotype.Component
 import java.util.*
@@ -11,7 +10,6 @@ import java.util.concurrent.TimeUnit
  * 限流通用工具
  * 针对于不同的情况进行限流操作，支持限流升级
  */
-@Slf4j
 @Component
 class FlowUtils {
     @Resource

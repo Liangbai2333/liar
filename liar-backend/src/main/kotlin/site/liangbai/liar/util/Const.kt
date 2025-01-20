@@ -10,4 +10,6 @@ object Const {
     //过滤器优先级
     const val ORDER_FLOW_LIMIT: Int = -101
     const val ORDER_CORS: Int = -102
+    //请求自定义属性
+    const val ATTR_USER_ID: String = "userId"
 }
