@@ -7,5 +7,6 @@ data class UserAuthorize(
     var id: Int? = null,
     var username: String? = null,
     var password: String? = null,
-    var roles: String? = null
+    var description: String? = null,
+    var roles: String? = null,
 )
