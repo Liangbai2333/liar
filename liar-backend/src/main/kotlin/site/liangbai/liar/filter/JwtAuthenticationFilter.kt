@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 import site.liangbai.liar.util.Const
 import site.liangbai.liar.util.JwtUtils
+import site.liangbai.liar.util.delegate.bean
 import java.io.IOException
 
 /**
@@ -21,8 +22,8 @@ import java.io.IOException
  */
 @Component
 class JwtAuthenticationFilter : OncePerRequestFilter() {
-    @Resource
-    lateinit var utils: JwtUtils
+    // ??为什么不能注入
+    private val jwtUtils: JwtUtils by bean()
 
     @Throws(ServletException::class, IOException::class)
     override fun doFilterInternal(
@@ -31,13 +32,13 @@ class JwtAuthenticationFilter : OncePerRequestFilter() {
         filterChain: FilterChain
     ) {
         val authorization = request.getHeader("Authorization")
-        utils.resolveJwt(authorization)?.let { jwt ->
-            val user: UserDetails = utils.toUser(jwt)
+        jwtUtils.resolveJwt(authorization)?.let { jwt ->
+            val user: UserDetails = jwtUtils.toUser(jwt)
             val authentication =
                 UsernamePasswordAuthenticationToken(user, null, user.authorities)
             authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
             SecurityContextHolder.getContext().authentication = authentication
-            request.setAttribute(Const.ATTR_USER_ID, utils.toId(jwt))
+            request.setAttribute(Const.ATTR_USER_ID, jwtUtils.toId(jwt))
         }
         filterChain.doFilter(request, response)
     }

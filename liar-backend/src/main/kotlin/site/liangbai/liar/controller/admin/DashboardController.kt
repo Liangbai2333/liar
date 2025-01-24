@@ -19,6 +19,6 @@ class DashboardController {
     @GetMapping("info")
     fun info() = Result.success(statService.getDashboard())
 
-    @GetMapping("total_view")
+    @GetMapping("total-view")
     fun totalView() = Result.success(articleService.list().sumOf { it.views!! })
 }

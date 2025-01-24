@@ -15,6 +15,7 @@ import org.springframework.web.filter.OncePerRequestFilter
 import org.springframework.web.util.ContentCachingResponseWrapper
 import site.liangbai.liar.util.Const
 import site.liangbai.liar.util.SnowflakeIdGenerator
+import site.liangbai.liar.util.delegate.bean
 import java.io.IOException
 
 /**
@@ -24,8 +25,8 @@ import java.io.IOException
 class RequestLogFilter : OncePerRequestFilter() {
     private val log = LoggerFactory.getLogger(RequestLogFilter::class.java)
 
-    @Resource
-    lateinit var generator: SnowflakeIdGenerator
+    // ??为什么不能注入
+    private val generator: SnowflakeIdGenerator by bean()
 
     private val ignores = setOf("/swagger-ui", "/v3/api-docs")
 
