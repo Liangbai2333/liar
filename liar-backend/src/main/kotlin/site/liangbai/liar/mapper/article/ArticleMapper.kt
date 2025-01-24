@@ -16,7 +16,7 @@ interface ArticleMapper : BaseMapper<Article> {
      * @return 文章列表
      */
     fun pageArticle(
-        page: Int,
+        offset: Int,
         size: Int,
         categoryId: Int? = null,
         tagId: Int? = null,

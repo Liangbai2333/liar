@@ -1,13 +1,12 @@
 package site.liangbai.liar.entity.dto.extension
 
-import jakarta.annotation.Resource
 import site.liangbai.liar.entity.dto.user.Contact
 import site.liangbai.liar.entity.dto.user.User
 import site.liangbai.liar.service.UserService
+import site.liangbai.liar.util.delegate.bean
 
 object ContactExtension : BaseEntityExtension<Contact>() {
-    @Resource
-    lateinit var userService: UserService
+    private val userService by bean<UserService>()
 
     val Contact.user: User?
         get() = getOrPutValue("user") {

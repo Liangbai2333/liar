@@ -2,35 +2,39 @@ package site.liangbai.liar.controller
 
 import jakarta.annotation.Resource
 import org.springframework.web.bind.annotation.*
+import site.liangbai.liar.entity.Result
 import site.liangbai.liar.entity.Result.Companion.successResult
+import site.liangbai.liar.entity.vo.response.article.ArticleVO
 import site.liangbai.liar.service.ArticleService
 
-@RestController("api/article")
+
+@RestController
+@RequestMapping("api/article")
 class ArticleController {
     @Resource
     lateinit var articleService: ArticleService
 
     @PostMapping("view/{id}")
-    suspend fun viewArticle(@PathVariable("id") id: Int) {
+    suspend fun viewArticle(@PathVariable("id") id: Int): Result<Unit> {
         return articleService.viewArticle(id).run { successResult() }
     }
 
     @GetMapping("get/{id}")
-    fun getArticleById(@PathVariable("id") id: Int) {
+    fun getArticleById(@PathVariable("id") id: Int): Result<ArticleVO> {
         return articleService.getArticleById(id).run { successResult(this) }
     }
 
     @GetMapping("list")
     fun getArticleList(
-        @RequestParam page: Int = 1,
-        @RequestParam size: Int = 10,
-        @RequestParam categoryId: Int? = null,
-        @RequestParam tagId: Int? = null,
-        @RequestParam authorId: Int? = null,
-        @RequestParam keyword: String? = null,
-        @RequestParam sort: String = "priority, create_time",
-        @RequestParam order: String = "desc"
-    ) {
+        @RequestParam page: Int,
+        @RequestParam size: Int,
+        @RequestParam(required = false) categoryId: Int?,
+        @RequestParam(required = false) tagId: Int?,
+        @RequestParam(required = false) authorId: Int?,
+        @RequestParam(required = false) keyword: String?,
+        @RequestParam(defaultValue = "priority, create_time") sort: String,
+        @RequestParam(defaultValue = "desc") order: String
+    ): Result<List<ArticleVO>> {
         return articleService.getArticleList(page, size, categoryId, tagId, authorId, keyword, sort, order).run { successResult(this) }
     }
 }

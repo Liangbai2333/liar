@@ -3,6 +3,7 @@ package site.liangbai.liar.entity.dto.article
 import com.baomidou.mybatisplus.annotation.IdType
 import com.baomidou.mybatisplus.annotation.TableId
 import com.baomidou.mybatisplus.annotation.TableName
+import site.liangbai.liar.enum.ArticleState
 import java.time.LocalDateTime
 
 @TableName("articles")
@@ -10,6 +11,7 @@ data class Article(
     @TableId(type = IdType.AUTO)
     var id: Int? = null,
     var title: String? = null,
+    var state: ArticleState? = null,
     var summary: String? = null,
     var motto: String? = null,
     var content: String? = null,

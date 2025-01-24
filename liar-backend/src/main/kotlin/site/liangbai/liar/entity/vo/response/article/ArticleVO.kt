@@ -9,8 +9,9 @@ import java.time.LocalDateTime
 data class ArticleVO(
     val id: Int,
     val title: String,
+    val state: String,
     val summary: String,
-    val motto: String?,
+    val motto: String,
     val content: String,
     val cover: String,
     val category: CategoryVO?,
@@ -25,11 +26,12 @@ data class ArticleVO(
         override fun internalTransform(entity: Article): ArticleVO {
             return ArticleVO(
                 id = entity.id!!,
-                title = entity.title!!,
-                summary = entity.summary!!,
-                motto = entity.motto,
-                content = entity.content!!,
-                cover = entity.cover!!,
+                title = entity.title.orEmpty(),
+                state = entity.state!!.name,
+                summary = entity.summary.orEmpty(),
+                motto = entity.motto.orEmpty(),
+                content = entity.content.orEmpty(),
+                cover = entity.cover.orEmpty(),
                 category = CategoryVO.fromEntity(entity.category),
                 tags = entity.tags?.map { TagVO.internalTransform(it) } ?: emptyList(),
                 views = entity.views!!,

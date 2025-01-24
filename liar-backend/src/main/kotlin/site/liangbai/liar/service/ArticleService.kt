@@ -17,6 +17,22 @@ interface ArticleService : IService<Article> {
         sort: String = "priority, create_time",
         order: String = "desc"
     ): List<ArticleVO>
+    
+    fun saveArticle(
+        id: Int,
+        title: String?,
+        state: String?,
+        summary: String?,
+        motto: String?,
+        content: String?,
+        cover: String?,
+        categoryId: Int,
+        tags: List<Int>?,
+        priority: Int,
+        authorId: Int
+    ): Boolean
+
+    fun deleteArticle(id: Int): Boolean
 
     fun viewArticle(id: Int)
 }

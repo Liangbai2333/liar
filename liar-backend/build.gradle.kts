@@ -41,7 +41,9 @@ dependencies {
     // mybatis-plus
     implementation("com.baomidou:mybatis-plus-spring-boot3-starter:3.5.9")
 
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.9.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("com.github.oshi:oshi-core:6.4.0")
     compileOnly("org.projectlombok:lombok")
     runtimeOnly("com.mysql:mysql-connector-j")
     annotationProcessor("org.projectlombok:lombok")

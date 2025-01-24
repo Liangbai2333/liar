@@ -1,10 +1,12 @@
 package site.liangbai.liar.service.impl
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
+import org.springframework.stereotype.Service
 import site.liangbai.liar.entity.dto.Setting
 import site.liangbai.liar.mapper.SettingMapper
 import site.liangbai.liar.service.SettingService
 
+@Service
 class SettingServiceImpl : ServiceImpl<SettingMapper, Setting>(), SettingService {
     fun getSetting(): Setting {
         return getById(1) ?: Setting().also { save(it) }

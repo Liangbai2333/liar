@@ -9,5 +9,9 @@ interface TagService : IService<Tag> {
 
     fun getTagByName(name: String): Tag?
 
+    fun getTagById(id: Int): Tag?
+
     fun getTagList(): List<TagVO>
+
+    fun saveTagListForArticleId(articleId: Int, tagIds: List<Int>)
 }
