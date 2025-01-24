@@ -42,4 +42,21 @@ class TagServiceImpl : ServiceImpl<TagMapper, Tag>(), TagService {
             articleTagMapper.insert(ArticleTag(articleId, it))
         }
     }
+
+    override fun saveTag(id: Int, name: String): Boolean {
+        val tag = if (id == 0) {
+            Tag().apply {
+                this.name = name
+            }
+        } else {
+            baseMapper.selectById(id)
+        } ?: return false
+
+        tag.name = name
+        return saveOrUpdate(tag)
+    }
+
+    override fun deleteTag(id: Int): Boolean {
+        return removeById(id)
+    }
 }

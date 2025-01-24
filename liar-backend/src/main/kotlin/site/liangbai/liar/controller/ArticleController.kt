@@ -3,7 +3,6 @@ package site.liangbai.liar.controller
 import jakarta.annotation.Resource
 import org.springframework.web.bind.annotation.*
 import site.liangbai.liar.entity.Result
-import site.liangbai.liar.entity.Result.Companion.successResult
 import site.liangbai.liar.entity.vo.response.article.ArticleVO
 import site.liangbai.liar.service.ArticleService
 
@@ -16,12 +15,12 @@ class ArticleController {
 
     @PostMapping("view/{id}")
     suspend fun viewArticle(@PathVariable("id") id: Int): Result<Unit> {
-        return articleService.viewArticle(id).run { successResult() }
+        return articleService.viewArticle(id).run { Result.empty() }
     }
 
     @GetMapping("get/{id}")
     fun getArticleById(@PathVariable("id") id: Int): Result<ArticleVO> {
-        return articleService.getArticleById(id).run { successResult(this) }
+        return articleService.getArticleById(id).run { Result.success(this) }
     }
 
     @GetMapping("list")
@@ -35,6 +34,6 @@ class ArticleController {
         @RequestParam(defaultValue = "priority, create_time") sort: String,
         @RequestParam(defaultValue = "desc") order: String
     ): Result<List<ArticleVO>> {
-        return articleService.getArticleList(page, size, categoryId, tagId, authorId, keyword, sort, order).run { successResult(this) }
+        return articleService.getArticleList(page, size, categoryId, tagId, authorId, keyword, sort, order).run { Result.success(this) }
     }
 }

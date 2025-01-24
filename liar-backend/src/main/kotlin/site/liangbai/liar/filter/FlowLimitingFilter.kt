@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.annotation.Order
 import org.springframework.data.redis.core.StringRedisTemplate
 import org.springframework.stereotype.Component
-import site.liangbai.liar.entity.Result.Companion.forbiddenResult
+import site.liangbai.liar.entity.Result
 import site.liangbai.liar.util.Const
 import site.liangbai.liar.util.FlowUtils
 import java.io.IOException
@@ -71,6 +71,6 @@ class FlowLimitingFilter : HttpFilter() {
         response.status = HttpServletResponse.SC_FORBIDDEN
         response.contentType = "application/json;charset=utf-8"
         val writer = response.writer
-        writer.write(forbiddenResult("操作频繁，请稍后再试").asJsonString())
+        writer.write(Result.forbidden("操作频繁，请稍后再试").asJsonString())
     }
 }

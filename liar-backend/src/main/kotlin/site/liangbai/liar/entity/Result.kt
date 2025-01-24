@@ -21,32 +21,24 @@ data class Result<T>(val code: Int, val data: T? = null, val msg: String) {
             return success(null, message)
         }
 
-        fun success(): Result<Unit> {
+        fun <T> success(data: T?): Result<T> {
+            return success(data, "success")
+        }
+
+        fun empty(): Result<Unit> {
             return success(null, "success")
         }
 
-        fun <T> failure(code: Int, message: String): Result<T> {
+        fun failure(code: Int, message: String): Result<Unit> {
             return Result(code, null, message)
         }
 
-        fun successResult(): Result<Unit> {
-            return success(null, "success")
+        fun forbidden(message: String): Result<Unit> {
+            return failure(403, message)
         }
 
-        fun <T> successResult(data: T?): Result<T> {
-            return Result(200, data, "success")
-        }
-
-        fun failureResult(code: Int, message: String): Result<Any> {
-            return Result(code, null, message)
-        }
-
-        fun forbiddenResult(message: String): Result<Any> {
-            return failureResult(403, message)
-        }
-
-        fun unauthorizedResult(message: String): Result<Any> {
-            return failureResult(401, message)
+        fun unauthorized(message: String): Result<Unit> {
+            return failure(401, message)
         }
     }
 }

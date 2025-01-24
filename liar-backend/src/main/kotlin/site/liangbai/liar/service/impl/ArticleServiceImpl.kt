@@ -3,7 +3,6 @@ package site.liangbai.liar.service.impl
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 import org.springframework.stereotype.Service
 import site.liangbai.liar.entity.dto.article.Article
-import site.liangbai.liar.entity.dto.extension.ArticleExtension.saveArticle
 import site.liangbai.liar.entity.vo.response.article.ArticleVO
 import site.liangbai.liar.entity.vo.response.article.ArticleVO.Companion.fromEntity
 import site.liangbai.liar.enum.ArticleState
@@ -11,7 +10,6 @@ import site.liangbai.liar.mapper.article.ArticleMapper
 import site.liangbai.liar.service.ArticleService
 import site.liangbai.liar.service.CategoryService
 import site.liangbai.liar.service.TagService
-import site.liangbai.liar.util.ifNotEmpty
 import site.liangbai.liar.util.ifNotZero
 
 @Service
@@ -62,11 +60,7 @@ class ArticleServiceImpl(
             }
         } else {
             getById(id)
-        }
-
-        if (article == null) {
-            return false
-        }
+        } ?: return false
 
         title?.let {
             article.title = it
@@ -98,7 +92,7 @@ class ArticleServiceImpl(
         if (tags != null) {
             tagService.saveTagListForArticleId(article.id!!, tags)
         }
-        article.saveArticle()
+        saveOrUpdate(article)
         return true
     }
 

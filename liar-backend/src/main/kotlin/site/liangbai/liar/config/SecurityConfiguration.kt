@@ -12,11 +12,8 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
-import site.liangbai.liar.entity.Result.Companion.failureResult
-import site.liangbai.liar.entity.Result.Companion.forbiddenResult
+import site.liangbai.liar.entity.Result
 import site.liangbai.liar.entity.Result.Companion.success
-import site.liangbai.liar.entity.Result.Companion.successResult
-import site.liangbai.liar.entity.Result.Companion.unauthorizedResult
 import site.liangbai.liar.entity.vo.response.auth.AuthorizeVO
 import site.liangbai.liar.filter.JwtAuthenticationFilter
 import site.liangbai.liar.filter.RequestLogFilter
@@ -86,20 +83,30 @@ class SecurityConfiguration {
         val writer = response.writer
         if (exceptionOrAuthentication is AccessDeniedException) {
             writer.write(
-                forbiddenResult(exceptionOrAuthentication.message!!).asJsonString()
+                Result.forbidden(exceptionOrAuthentication.message!!).asJsonString()
             )
         } else if (exceptionOrAuthentication is Exception) {
             writer.write(
-                unauthorizedResult(exceptionOrAuthentication.message!!).asJsonString()
+                Result.unauthorized(exceptionOrAuthentication.message!!).asJsonString()
             )
         } else if (exceptionOrAuthentication is Authentication) {
             val user = exceptionOrAuthentication.principal as User
             val account = accountContextService.currentAccount!!
             val jwt = utils.createJwt(user, account.username!!, account.id!!)
             if (jwt == null) {
-                writer.write(forbiddenResult("登录验证频繁，请稍后再试").asJsonString())
+                writer.write(Result.forbidden("登录验证频繁，请稍后再试").asJsonString())
             } else {
-                writer.write(successResult(
+                writer.write(
+                    success(
+                        AuthorizeVO.fromEntity(account)!!
+                            .apply {
+                                this.token = jwt
+                                this.expire = utils.expireTime()
+                            }
+                    ).asJsonString()
+                )
+                writer.write(
+                    success(
                     AuthorizeVO.fromEntity(account)!!
                         .apply {
                             this.token = jwt
@@ -130,6 +137,6 @@ class SecurityConfiguration {
             writer.write(success("退出登录成功").asJsonString())
             return
         }
-        writer.write(failureResult(400, "退出登录失败").asJsonString())
+        writer.write(Result.failure(400, "退出登录失败").asJsonString())
     }
 }

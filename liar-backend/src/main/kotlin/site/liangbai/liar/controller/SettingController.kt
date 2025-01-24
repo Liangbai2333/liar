@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import site.liangbai.liar.entity.Result
-import site.liangbai.liar.entity.Result.Companion.successResult
 import site.liangbai.liar.service.SettingService
 
 @RestController
@@ -16,16 +15,16 @@ class SettingController {
     lateinit var settingService: SettingService
 
     @GetMapping("title")
-    fun getTitle() = successResult(settingService.getTitle())
+    fun getTitle() = Result.success(settingService.getTitle())
 
     @GetMapping("headline")
-    fun getHeadline() = successResult(settingService.getHeadline())
+    fun getHeadline() = Result.success(settingService.getHeadline())
 
     @GetMapping("summary")
-    fun getSummary() = successResult(settingService.getSummary())
+    fun getSummary() = Result.success(settingService.getSummary())
 
     @GetMapping("footer")
-    fun getFooter() = successResult(settingService.getFooter())
+    fun getFooter() = Result.success(settingService.getFooter())
 
     @GetMapping("set")
     fun setSetting(
@@ -38,6 +37,6 @@ class SettingController {
         headline?.let { settingService.setHeadline(it) }
         summary?.let { settingService.setSummary(it) }
         footer?.let { settingService.setFooter(it) }
-        return successResult()
+        return Result.empty()
     }
 }

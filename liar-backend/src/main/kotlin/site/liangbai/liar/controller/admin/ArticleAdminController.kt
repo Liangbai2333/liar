@@ -7,12 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import site.liangbai.liar.entity.Result
-import site.liangbai.liar.entity.Result.Companion.successResult
 import site.liangbai.liar.service.ArticleService
 
 @RestController
 @RequestMapping("api/admin/article")
-class ArticleController {
+class ArticleAdminController {
     @Resource
     lateinit var articleService: ArticleService
 
@@ -30,7 +29,7 @@ class ArticleController {
         @RequestParam(defaultValue = "100") priority: Int,
         @RequestParam(defaultValue = "0") authorId: Int
     ): Result<Boolean> {
-        return successResult(
+        return Result.success(
             articleService.saveArticle(
                 id,
                 title,
@@ -49,6 +48,6 @@ class ArticleController {
 
     @PostMapping("delete/{id}")
     fun deleteArticle(@PathVariable("id") id: Int): Result<Boolean> {
-        return successResult(articleService.deleteArticle(id))
+        return Result.success(articleService.deleteArticle(id))
     }
 }

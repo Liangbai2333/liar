@@ -4,7 +4,6 @@ import site.liangbai.liar.entity.dto.article.Article
 import site.liangbai.liar.entity.dto.article.Category
 import site.liangbai.liar.entity.dto.article.Tag
 import site.liangbai.liar.entity.dto.user.User
-import site.liangbai.liar.service.ArticleService
 import site.liangbai.liar.service.CategoryService
 import site.liangbai.liar.service.TagService
 import site.liangbai.liar.service.UserService
@@ -13,7 +12,6 @@ import site.liangbai.liar.util.delegate.bean
 object ArticleExtension : BaseEntityExtension<Article>() {
     private val tagService by bean<TagService>()
     private val categoryService by bean<CategoryService>()
-    private val articleService by bean<ArticleService>()
     private val userService by bean<UserService>()
 
     val Article.category: Category?
@@ -30,19 +28,4 @@ object ArticleExtension : BaseEntityExtension<Article>() {
         get() = getOrPutValue("author") {
             this.authorId?.let { userService.getById(it) }
         }
-
-    fun Article.saveArticle() {
-        articleService.save(this)
-    }
-
-    fun Article.updateArticle() {
-        articleService.updateById(this)
-    }
-
-    /**
-     * 因为有数据库级联，此处不做处理.
-     */
-    fun Article.deleteArticle() {
-        articleService.removeById(this.id)
-    }
 }

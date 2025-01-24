@@ -8,4 +8,14 @@ interface CategoryService : IService<Category> {
     fun getCategoryByName(name: String): Category?
 
     fun getCategoryList(): List<CategoryVO>
+
+    fun saveCategory(
+        id: Int,
+        name: String,
+        description: String?,
+        icon: String?,
+        color: String?
+    ): Boolean
+
+    fun deleteCategory(id: Int): Boolean
 }

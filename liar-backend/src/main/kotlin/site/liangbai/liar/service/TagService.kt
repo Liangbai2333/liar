@@ -14,4 +14,11 @@ interface TagService : IService<Tag> {
     fun getTagList(): List<TagVO>
 
     fun saveTagListForArticleId(articleId: Int, tagIds: List<Int>)
+
+    fun saveTag(
+        id: Int,
+        name: String
+    ): Boolean
+
+    fun deleteTag(id: Int): Boolean
 }

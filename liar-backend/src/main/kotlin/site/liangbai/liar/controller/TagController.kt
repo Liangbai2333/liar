@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import site.liangbai.liar.entity.Result
-import site.liangbai.liar.entity.Result.Companion.successResult
 import site.liangbai.liar.entity.vo.response.article.TagVO
 import site.liangbai.liar.service.TagService
 
@@ -17,6 +16,6 @@ class TagController {
 
     @GetMapping("list")
     fun getTagList(): Result<List<TagVO>> {
-        return tagService.getTagList().run { successResult(this) }
+        return tagService.getTagList().run { Result.success(this) }
     }
 }
