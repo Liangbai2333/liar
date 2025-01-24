@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.multipart.MultipartFile
 import site.liangbai.liar.entity.Result
 import site.liangbai.liar.service.ArticleService
 
@@ -49,5 +50,10 @@ class ArticleAdminController {
     @PostMapping("delete/{id}")
     fun deleteArticle(@PathVariable("id") id: Int): Result<Boolean> {
         return Result.success(articleService.deleteArticle(id))
+    }
+
+    @PostMapping("upload/cover")
+    fun uploadCover(@RequestParam file: MultipartFile): Result<String> {
+        return Result.success(articleService.uploadCoverImage(file), "success")
     }
 }

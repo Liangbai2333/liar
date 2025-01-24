@@ -1,4 +1,4 @@
-package site.liangbai.liar.entity.dto
+package site.liangbai.liar.entity.dto.stat
 
 import com.baomidou.mybatisplus.annotation.IdType
 import com.baomidou.mybatisplus.annotation.TableId

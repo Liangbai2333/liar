@@ -18,4 +18,9 @@ class CategoryController {
     fun getCategoryList(): Result<List<CategoryVO>> {
         return categoryService.getCategoryList().run { Result.success(this) }
     }
+
+    @GetMapping("count")
+    fun getCategoryCount(): Result<Long> {
+        return categoryService.count().run { Result.success(this) }
+    }
 }

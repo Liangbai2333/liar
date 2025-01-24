@@ -1,6 +1,7 @@
 package site.liangbai.liar.service
 
 import com.baomidou.mybatisplus.extension.service.IService
+import org.springframework.web.multipart.MultipartFile
 import site.liangbai.liar.entity.dto.article.Article
 import site.liangbai.liar.entity.vo.response.article.ArticleVO
 
@@ -35,4 +36,8 @@ interface ArticleService : IService<Article> {
     fun deleteArticle(id: Int): Boolean
 
     fun viewArticle(id: Int)
+
+    fun uploadCoverImage(
+        file: MultipartFile
+    ): String
 }

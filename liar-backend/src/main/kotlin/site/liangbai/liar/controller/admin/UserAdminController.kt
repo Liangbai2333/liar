@@ -1,9 +1,9 @@
-package site.liangbai.liar.controller
+package site.liangbai.liar.controller.admin
 
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
 @RestController
-@RequestMapping("api/user")
-class UserController {
+@RequestMapping("api/admin/user")
+class UserAdminController {
 }

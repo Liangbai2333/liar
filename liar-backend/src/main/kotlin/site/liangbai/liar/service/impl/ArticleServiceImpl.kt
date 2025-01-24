@@ -2,6 +2,7 @@ package site.liangbai.liar.service.impl
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 import org.springframework.stereotype.Service
+import org.springframework.web.multipart.MultipartFile
 import site.liangbai.liar.entity.dto.article.Article
 import site.liangbai.liar.entity.vo.response.article.ArticleVO
 import site.liangbai.liar.entity.vo.response.article.ArticleVO.Companion.fromEntity
@@ -9,15 +10,27 @@ import site.liangbai.liar.enum.ArticleState
 import site.liangbai.liar.mapper.article.ArticleMapper
 import site.liangbai.liar.service.ArticleService
 import site.liangbai.liar.service.CategoryService
+import site.liangbai.liar.service.FileUploadService
 import site.liangbai.liar.service.TagService
 import site.liangbai.liar.util.ifNotZero
+import java.nio.file.Files
+import java.nio.file.Paths
 
 @Service
 class ArticleServiceImpl(
     private val articleMapper: ArticleMapper,
     private val categoryService: CategoryService,
-    private val tagService: TagService
+    private val tagService: TagService,
+    private val fileUploadService: FileUploadService
 ) : ServiceImpl<ArticleMapper, Article>(), ArticleService {
+    private val coverDir = Paths.get("uploads/article/cover")
+
+    init {
+        if (!Files.exists(coverDir)) {
+            Files.createDirectories(coverDir)
+        }
+    }
+
     override fun getArticleById(id: Int) = fromEntity(getById(id))
     override fun getArticleList(
         page: Int,
@@ -109,5 +122,9 @@ class ArticleServiceImpl(
             it.views = it.views!! + 1
             articleMapper.updateById(it)
         }
+    }
+
+    override fun uploadCoverImage(file: MultipartFile): String {
+        return fileUploadService.uploadImage(file, coverDir)
     }
 }

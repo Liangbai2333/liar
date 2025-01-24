@@ -18,4 +18,9 @@ class TagController {
     fun getTagList(): Result<List<TagVO>> {
         return tagService.getTagList().run { Result.success(this) }
     }
+
+    @GetMapping("count")
+    fun getTagCount(): Result<Long> {
+        return tagService.count().run { Result.success(this) }
+    }
 }

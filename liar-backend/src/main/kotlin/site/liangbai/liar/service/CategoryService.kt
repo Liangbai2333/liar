@@ -1,6 +1,7 @@
 package site.liangbai.liar.service
 
 import com.baomidou.mybatisplus.extension.service.IService
+import org.springframework.web.multipart.MultipartFile
 import site.liangbai.liar.entity.dto.article.Category
 import site.liangbai.liar.entity.vo.response.article.CategoryVO
 
@@ -18,4 +19,6 @@ interface CategoryService : IService<Category> {
     ): Boolean
 
     fun deleteCategory(id: Int): Boolean
+
+    fun uploadIconImage(file: MultipartFile): String
 }
