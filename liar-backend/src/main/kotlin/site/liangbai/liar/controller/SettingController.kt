@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import site.liangbai.liar.entity.Result
-import site.liangbai.liar.service.SettingService
+import site.liangbai.liar.service.system.SettingService
 
 @RestController
 @RequestMapping("api/setting")

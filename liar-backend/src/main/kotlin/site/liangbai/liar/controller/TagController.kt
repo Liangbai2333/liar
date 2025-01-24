@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import site.liangbai.liar.entity.Result
 import site.liangbai.liar.entity.vo.response.article.TagVO
-import site.liangbai.liar.service.TagService
+import site.liangbai.liar.service.article.TagService
 
 @RestController
 @RequestMapping("api/tag")

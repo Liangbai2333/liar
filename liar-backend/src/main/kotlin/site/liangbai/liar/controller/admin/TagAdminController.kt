@@ -3,7 +3,7 @@ package site.liangbai.liar.controller.admin
 import jakarta.annotation.Resource
 import org.springframework.web.bind.annotation.*
 import site.liangbai.liar.entity.Result
-import site.liangbai.liar.service.TagService
+import site.liangbai.liar.service.article.TagService
 
 @RestController
 @RequestMapping("api/admin/tag")

@@ -1,4 +1,4 @@
-package site.liangbai.liar.service.impl
+package site.liangbai.liar.service.article.impl
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
@@ -9,7 +9,7 @@ import site.liangbai.liar.entity.dto.article.Tag
 import site.liangbai.liar.entity.vo.response.article.TagVO
 import site.liangbai.liar.mapper.article.ArticleTagMapper
 import site.liangbai.liar.mapper.article.TagMapper
-import site.liangbai.liar.service.TagService
+import site.liangbai.liar.service.article.TagService
 
 @Service
 class TagServiceImpl : ServiceImpl<TagMapper, Tag>(), TagService {
@@ -25,7 +25,7 @@ class TagServiceImpl : ServiceImpl<TagMapper, Tag>(), TagService {
     }
 
     override fun getTagByName(name: String): Tag? {
-        return lambdaQuery().eq(Tag::name, name).one()
+        return query().eq("name", name).one()
     }
 
     override fun getTagById(id: Int): Tag? {

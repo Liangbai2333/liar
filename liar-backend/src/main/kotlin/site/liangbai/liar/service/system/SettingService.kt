@@ -1,4 +1,4 @@
-package site.liangbai.liar.service
+package site.liangbai.liar.service.system
 
 import com.baomidou.mybatisplus.extension.service.IService
 import site.liangbai.liar.entity.dto.stat.Setting

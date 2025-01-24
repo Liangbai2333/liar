@@ -4,7 +4,7 @@ import jakarta.annotation.Resource
 import org.springframework.web.bind.annotation.*
 import site.liangbai.liar.entity.Result
 import site.liangbai.liar.entity.vo.response.article.ArticleVO
-import site.liangbai.liar.service.ArticleService
+import site.liangbai.liar.service.article.ArticleService
 
 
 @RestController

@@ -1,4 +1,4 @@
-package site.liangbai.liar.service
+package site.liangbai.liar.service.auth
 
 import site.liangbai.liar.entity.dto.auth.UserAuthorize
 

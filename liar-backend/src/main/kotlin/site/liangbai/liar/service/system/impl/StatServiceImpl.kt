@@ -1,4 +1,4 @@
-package site.liangbai.liar.service.impl
+package site.liangbai.liar.service.system.impl
 
 import jakarta.annotation.PostConstruct
 import kotlinx.coroutines.CoroutineScope
@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import org.springframework.stereotype.Service
 import oshi.SystemInfo
 import site.liangbai.liar.entity.vo.response.stat.DashboardVO
-import site.liangbai.liar.service.StatService
+import site.liangbai.liar.service.system.StatService
 import java.lang.management.ManagementFactory
 
 @Service

@@ -1,4 +1,4 @@
-package site.liangbai.liar.service
+package site.liangbai.liar.service.article
 
 import com.baomidou.mybatisplus.extension.service.IService
 import org.springframework.web.multipart.MultipartFile

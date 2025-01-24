@@ -1,4 +1,4 @@
-package site.liangbai.liar.service.impl
+package site.liangbai.liar.service.system.impl
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 import org.springframework.stereotype.Service
@@ -6,7 +6,7 @@ import site.liangbai.liar.entity.dto.stat.Setting
 import site.liangbai.liar.entity.vo.response.stat.SettingVO
 import site.liangbai.liar.entity.vo.response.stat.SettingVO.Companion.fromEntity
 import site.liangbai.liar.mapper.SettingMapper
-import site.liangbai.liar.service.SettingService
+import site.liangbai.liar.service.system.SettingService
 
 @Service
 class SettingServiceImpl : ServiceImpl<SettingMapper, Setting>(), SettingService {

@@ -1,4 +1,4 @@
-package site.liangbai.liar.service
+package site.liangbai.liar.service.auth
 
 import com.baomidou.mybatisplus.extension.service.IService
 import org.springframework.security.core.userdetails.UserDetailsService

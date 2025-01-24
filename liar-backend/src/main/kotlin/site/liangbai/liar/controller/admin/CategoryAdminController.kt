@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.multipart.MultipartFile
 import site.liangbai.liar.entity.Result
-import site.liangbai.liar.service.CategoryService
+import site.liangbai.liar.service.article.CategoryService
 
 @RestController
 @RequestMapping("api/admin/category")

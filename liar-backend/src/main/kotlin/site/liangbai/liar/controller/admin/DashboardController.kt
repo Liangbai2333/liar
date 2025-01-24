@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import site.liangbai.liar.entity.Result
-import site.liangbai.liar.service.ArticleService
-import site.liangbai.liar.service.StatService
+import site.liangbai.liar.service.article.ArticleService
+import site.liangbai.liar.service.system.StatService
 
 @RestController
 @RequestMapping("api/admin/dashboard")

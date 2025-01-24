@@ -1,4 +1,4 @@
-package site.liangbai.liar.service.impl
+package site.liangbai.liar.service.article.impl
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 import org.springframework.stereotype.Service
@@ -6,8 +6,8 @@ import org.springframework.web.multipart.MultipartFile
 import site.liangbai.liar.entity.dto.article.Category
 import site.liangbai.liar.entity.vo.response.article.CategoryVO
 import site.liangbai.liar.mapper.article.CategoryMapper
-import site.liangbai.liar.service.CategoryService
-import site.liangbai.liar.service.FileUploadService
+import site.liangbai.liar.service.article.CategoryService
+import site.liangbai.liar.service.system.FileUploadService
 import site.liangbai.liar.util.ifNotEmpty
 import java.nio.file.Files
 import java.nio.file.Paths
@@ -25,11 +25,11 @@ class CategoryServiceImpl(
     }
 
     override fun getCategoryByName(name: String): Category? {
-        return lambdaQuery().eq(Category::name, name).one()
+        return query().eq("name", name).one()
     }
 
     override fun getCategoryList(): List<CategoryVO> {
-        return lambdaQuery().list()?.map { CategoryVO.internalTransform(it) } ?: emptyList()
+        return query().list()?.map { CategoryVO.internalTransform(it) } ?: emptyList()
     }
 
     override fun saveCategory(id: Int, name: String, description: String?, icon: String?, color: String?): Boolean {

@@ -4,9 +4,9 @@ import site.liangbai.liar.entity.dto.article.Article
 import site.liangbai.liar.entity.dto.article.Category
 import site.liangbai.liar.entity.dto.article.Tag
 import site.liangbai.liar.entity.dto.user.User
-import site.liangbai.liar.service.CategoryService
-import site.liangbai.liar.service.TagService
-import site.liangbai.liar.service.UserService
+import site.liangbai.liar.service.article.CategoryService
+import site.liangbai.liar.service.article.TagService
+import site.liangbai.liar.service.user.UserService
 import site.liangbai.liar.util.delegate.bean
 
 object ArticleExtension : BaseEntityExtension<Article>() {

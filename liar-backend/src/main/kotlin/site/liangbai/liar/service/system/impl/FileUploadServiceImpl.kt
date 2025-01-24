@@ -1,8 +1,8 @@
-package site.liangbai.liar.service.impl
+package site.liangbai.liar.service.system.impl
 
 import org.springframework.stereotype.Service
 import org.springframework.web.multipart.MultipartFile
-import site.liangbai.liar.service.FileUploadService
+import site.liangbai.liar.service.system.FileUploadService
 import java.nio.file.Path
 import java.util.*
 import kotlin.io.path.absolutePathString

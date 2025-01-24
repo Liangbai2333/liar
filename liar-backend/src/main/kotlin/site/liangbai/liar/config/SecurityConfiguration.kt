@@ -17,7 +17,7 @@ import site.liangbai.liar.entity.Result.Companion.success
 import site.liangbai.liar.entity.vo.response.auth.AuthorizeVO
 import site.liangbai.liar.filter.JwtAuthenticationFilter
 import site.liangbai.liar.filter.RequestLogFilter
-import site.liangbai.liar.service.AccountContextService
+import site.liangbai.liar.service.auth.AccountContextService
 import site.liangbai.liar.util.JwtUtils
 import java.io.IOException
 

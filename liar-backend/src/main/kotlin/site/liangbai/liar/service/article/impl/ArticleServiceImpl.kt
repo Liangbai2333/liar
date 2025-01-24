@@ -1,4 +1,4 @@
-package site.liangbai.liar.service.impl
+package site.liangbai.liar.service.article.impl
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl
 import org.springframework.stereotype.Service
@@ -8,10 +8,10 @@ import site.liangbai.liar.entity.vo.response.article.ArticleVO
 import site.liangbai.liar.entity.vo.response.article.ArticleVO.Companion.fromEntity
 import site.liangbai.liar.enum.ArticleState
 import site.liangbai.liar.mapper.article.ArticleMapper
-import site.liangbai.liar.service.ArticleService
-import site.liangbai.liar.service.CategoryService
-import site.liangbai.liar.service.FileUploadService
-import site.liangbai.liar.service.TagService
+import site.liangbai.liar.service.article.ArticleService
+import site.liangbai.liar.service.article.CategoryService
+import site.liangbai.liar.service.system.FileUploadService
+import site.liangbai.liar.service.article.TagService
 import site.liangbai.liar.util.ifNotZero
 import java.nio.file.Files
 import java.nio.file.Paths
