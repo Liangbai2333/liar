@@ -14,29 +14,6 @@ class SettingController {
     @Resource
     lateinit var settingService: SettingService
 
-    @GetMapping("title")
-    fun getTitle() = Result.success(settingService.getTitle())
-
-    @GetMapping("headline")
-    fun getHeadline() = Result.success(settingService.getHeadline())
-
-    @GetMapping("summary")
-    fun getSummary() = Result.success(settingService.getSummary())
-
-    @GetMapping("footer")
-    fun getFooter() = Result.success(settingService.getFooter())
-
-    @GetMapping("set")
-    fun setSetting(
-        @RequestParam(required = false) title: String? = null,
-        @RequestParam(required = false) headline: String? = null,
-        @RequestParam(required = false) summary: String? = null,
-        @RequestParam(required = false) footer: String? = null
-    ): Result<Unit> {
-        title?.let { settingService.setTitle(it) }
-        headline?.let { settingService.setHeadline(it) }
-        summary?.let { settingService.setSummary(it) }
-        footer?.let { settingService.setFooter(it) }
-        return Result.empty()
-    }
+    @GetMapping("info")
+    fun getInfo() = Result.success(settingService.getSettingVO())
 }

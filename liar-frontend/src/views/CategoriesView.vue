@@ -9,7 +9,7 @@
 
     <main class="content">
       <div class="categories-grid">
-        <div v-for="category in categories" :key="category.name" class="category-card">
+        <div v-for="category in categoryStore.categories" :key="category.id" class="category-card">
           <div class="category-icon" :style="{ backgroundColor: category.color + '10' }">
             <span class="icon">{{ category.icon }}</span>
           </div>
@@ -27,11 +27,11 @@
         <h2 class="section-title">热门标签</h2>
         <div class="tags-cloud">
           <router-link 
-            v-for="tag in tags" 
-            :key="tag.name"
-            :to="{ path: '/articles', query: { tag: tag.name }}"
+            v-for="tag in tagStore.tags" 
+            :key="tag.id"
+            :to="{ path: '/articles', query: { tag: tag.id }}"
             class="tag"
-            :style="{ fontSize: tag.size + 'rem' }"
+            :style="{ fontSize: (tag.count / tagStore.total * 0.5 + 1) + 'rem' }"
           >
             {{ tag.name }}
             <span class="tag-count">({{ tag.count }})</span>
@@ -43,57 +43,22 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { onMounted } from 'vue'
+import { useCategoryStore } from '../stores/category'
+import { useTagStore } from '../stores/tag'
 
-const categories = ref([
-  {
-    id: 'tech',
-    name: '技术',
-    icon: '💻',
-    color: '#409EFF',
-    count: 25,
-    description: '分享编程技术、开发经验和最佳实践'
-  },
-  {
-    id: 'life',
-    name: '生活',
-    icon: '🌱',
-    color: '#67C23A',
-    count: 15,
-    description: '记录日常生活、兴趣爱好和个人成长'
-  },
-  {
-    id: 'thoughts',
-    name: '随想',
-    icon: '💭',
-    color: '#E6A23C',
-    count: 10,
-    description: '分享想法、感悟和对事物的思考'
-  },
-  {
-    id: 'reading',
-    name: '读书',
-    icon: '📚',
-    color: '#F56C6C',
-    count: 8,
-    description: '书籍推荐、读书笔记和心得体会'
-  }
-])
+const categoryStore = useCategoryStore()
+const tagStore = useTagStore()
 
-const tags = ref([
-  { name: 'Vue.js', count: 12, size: 1.4 },
-  { name: 'Spring Boot', count: 10, size: 1.3 },
-  { name: 'Java', count: 15, size: 1.5 },
-  { name: 'JavaScript', count: 18, size: 1.6 },
-  { name: 'Docker', count: 8, size: 1.2 },
-  { name: '微服务', count: 6, size: 1.1 },
-  { name: '前端开发', count: 20, size: 1.7 },
-  { name: '后端开发', count: 16, size: 1.5 },
-  { name: '数据库', count: 9, size: 1.2 },
-  { name: '设计模式', count: 7, size: 1.1 },
-  { name: '算法', count: 5, size: 1 },
-  { name: '架构设计', count: 4, size: 1 }
-])
+// 组件挂载时加载数据
+onMounted(async () => {
+  await Promise.all([
+    categoryStore.fetchCategories(),
+    categoryStore.fetchTotal(),
+    tagStore.fetchTags(),
+    tagStore.fetchTotal()
+  ])
+})
 </script>
 
 <style scoped>

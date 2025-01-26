@@ -1,18 +1,13 @@
 <script setup>
-import { usePostsStore } from '../stores/posts'
+import { useArticleStore } from '../stores/article'
 import PostCard from '../components/PostCard.vue'
-import { computed } from 'vue'
+import { onMounted } from 'vue'
 
-const postsStore = usePostsStore()
+const articleStore = useArticleStore()
 
-// 创建一个计算属性来获取随机的3个帖子
-const randomPosts = computed(() => {
-  const posts = [...postsStore.posts]
-  for (let i = posts.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [posts[i], posts[j]] = [posts[j], posts[i]]
-  }
-  return posts.slice(0, 3)
+// 在组件挂载时获取文章
+onMounted(async () => {
+  await articleStore.fetchTopPosts()
 })
 </script>
 
@@ -27,8 +22,8 @@ const randomPosts = computed(() => {
 
     <main class="content">
       <div class="posts-grid">
-        <PostCard v-for="post in randomPosts" 
-                 :key="post.title" 
+        <PostCard v-for="post in articleStore.topPosts" 
+                 :key="post.id" 
                  :post="post" />
       </div>
     </main>

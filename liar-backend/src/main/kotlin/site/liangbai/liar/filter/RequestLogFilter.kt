@@ -69,7 +69,7 @@ class RequestLogFilter : OncePerRequestFilter() {
         val time = System.currentTimeMillis() - startTime
         val status = wrapper.status
         val content = if (status != 200) "$status 错误" else String(wrapper.contentAsByteArray)
-        log.info("请求处理耗时: {}ms | 响应结果: {}", time, content)
+        log.info("请求处理耗时: {}ms", time)
     }
 
     /**
@@ -87,14 +87,14 @@ class RequestLogFilter : OncePerRequestFilter() {
         if (id != null) {
             val user = SecurityContextHolder.getContext().authentication.principal as User
             log.info(
-                "请求URL: \"{}\" ({}) | 远程IP地址: {} │ 身份: {} (UID: {}) | 角色: {} | 请求参数列表: {}",
+                "请求URL: \"{}\" ({}) | 远程IP地址: {} │ 身份: {} (UID: {}) | 角色: {}",
                 request.servletPath, request.method, request.remoteAddr,
-                user.username, id, user.authorities, `object`
+                user.username, id, user.authorities
             )
         } else {
             log.info(
-                "请求URL: \"{}\" ({}) | 远程IP地址: {} │ 身份: 未验证 | 请求参数列表: {}",
-                request.servletPath, request.method, request.remoteAddr, `object`
+                "请求URL: \"{}\" ({}) | 远程IP地址: {} │ 身份: 未验证",
+                request.servletPath, request.method, request.remoteAddr
             )
         }
     }

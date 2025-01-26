@@ -3,30 +3,48 @@
     <header class="page-header">
       <div class="header-content">
         <h1 class="page-title">文章列表</h1>
+        <p class="page-subtitle" v-if="articleStore.total > 0">
+          共 {{ articleStore.total }} 篇文章
+        </p>
         <div class="search-bar">
           <input 
             type="text" 
             v-model="searchQuery" 
             placeholder="搜索文章..."
             class="search-input"
+            @input="handleSearch"
           >
-          <select v-model="selectedCategory" class="category-select">
+          <select 
+            v-model="selectedCategory" 
+            class="category-select"
+            @change="handleCategoryChange"
+          >
             <option value="">全部分类</option>
-            <option value="tech">技术</option>
-            <option value="life">生活</option>
-            <option value="thoughts">随想</option>
+            <option 
+              v-for="category in categoryStore.categories" 
+              :key="category.id" 
+              :value="category.id"
+            >
+              {{ category.name }}
+            </option>
           </select>
         </div>
       </div>
     </header>
 
     <main class="content">
-      <div class="articles-list">
-        <article v-for="article in filteredArticles" :key="article.id" class="article-item">
+      <div v-if="articleStore.loading" class="loading">
+        加载中...
+      </div>
+      <div v-else-if="articleStore.articles.length === 0" class="no-data">
+        暂无文章
+      </div>
+      <div v-else class="articles-list">
+        <article v-for="article in articleStore.articles" :key="article.id" class="article-item">
           <div class="article-content">
             <div class="article-header">
               <h2 class="article-title">
-                <router-link :to="'/articles/' + article.id">{{ article.title }}</router-link>
+                <router-link :to="'/article/' + article.id">{{ article.title }}</router-link>
               </h2>
               <div class="article-meta">
                 <span class="category">{{ article.category }}</span>
@@ -45,18 +63,27 @@
         </article>
       </div>
 
-      <div class="pagination">
+      <div class="pagination" v-if="articleStore.articles.length > 0">
         <button 
           :disabled="currentPage === 1" 
-          @click="currentPage--"
+          @click="handlePageChange(currentPage - 1)"
           class="page-btn"
         >
           上一页
         </button>
-        <span class="page-info">{{ currentPage }} / {{ totalPages }}</span>
+        <div class="page-numbers">
+          <button
+            v-for="page in totalPages"
+            :key="page"
+            :class="['page-number', { active: currentPage === page }]"
+            @click="handlePageChange(page)"
+          >
+            {{ page }}
+          </button>
+        </div>
         <button 
           :disabled="currentPage === totalPages" 
-          @click="currentPage++"
+          @click="handlePageChange(currentPage + 1)"
           class="page-btn"
         >
           下一页
@@ -67,60 +94,85 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
+import { useArticleStore } from '../stores/article'
+import { useCategoryStore } from '../stores/category'
+import { useRoute } from 'vue-router'
+import { storeToRefs } from 'pinia'
 
-// 模拟文章数据
-const articles = ref([
-  {
-    id: 1,
-    title: '深入理解Vue3组合式API',
-    category: '技术',
-    date: '2024-03-15',
-    views: 1250,
-    summary: 'Vue3的组合式API（Composition API）是一个革命性的特性，它为我们提供了更好的代码组织方式和逻辑复用能力...',
-    tags: ['Vue3', 'JavaScript', '前端开发'],
-    cover: 'https://picsum.photos/200/150'
-  },
-  {
-    id: 2,
-    title: 'Spring Boot 实践指南',
-    category: '技术',
-    date: '2024-03-14',
-    views: 980,
-    summary: '本文将介绍Spring Boot的核心特性和最佳实践，帮助你更好地使用这个强大的框架...',
-    tags: ['Java', 'Spring Boot', '后端开发'],
-    cover: 'https://picsum.photos/200/150'
-  },
-  // 添加更多文章...
-])
+const route = useRoute()
+const articleStore = useArticleStore()
+const categoryStore = useCategoryStore()
 
+// 搜索和筛选状态
 const searchQuery = ref('')
 const selectedCategory = ref('')
 const currentPage = ref(1)
 const pageSize = 10
 
-const filteredArticles = computed(() => {
-  let result = articles.value
-
-  if (searchQuery.value) {
-    result = result.filter(article => 
-      article.title.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
-      article.summary.toLowerCase().includes(searchQuery.value.toLowerCase())
-    )
-  }
-
-  if (selectedCategory.value) {
-    result = result.filter(article => 
-      article.category === selectedCategory.value
-    )
-  }
-
-  return result
+// 计算总页数
+const totalPages = computed(() => {
+  if (!articleStore.total) return 1
+  return Math.max(1, Math.ceil(articleStore.total / pageSize))
 })
 
-const totalPages = computed(() => 
-  Math.ceil(filteredArticles.value.length / pageSize)
-)
+// 加载文章列表
+const loadArticles = async () => {
+  await articleStore.fetchArticles({
+    page: currentPage.value,
+    size: pageSize,
+    categoryId: selectedCategory.value || undefined,
+    keyword: searchQuery.value || undefined
+  })
+}
+
+// 处理搜索
+const handleSearch = () => {
+  currentPage.value = 1
+  loadArticles()
+}
+
+// 处理分类变化
+const handleCategoryChange = () => {
+  currentPage.value = 1
+  loadArticles()
+}
+
+// 处理页码变化
+const handlePageChange = (page) => {
+  if (page < 1 || page > totalPages.value) return
+  currentPage.value = page
+  loadArticles()
+  window.scrollTo({ top: 0, behavior: 'smooth' })
+}
+
+// 监听搜索和分类变化
+watch([searchQuery, selectedCategory], () => {
+  handleSearch()
+}, { debounce: 300 })
+
+// 组件挂载时加载数据
+onMounted(async () => {
+  // 从路由参数中获取分类
+  if (route.query.category) {
+    selectedCategory.value = route.query.category
+  }
+  
+  await Promise.all([
+    categoryStore.fetchCategories(),
+    articleStore.fetchTotal(),
+    loadArticles()
+  ])
+})
+
+// 监听路由变化
+watch(() => route.query.category, (newCategory) => {
+  if (newCategory !== selectedCategory.value) {
+    selectedCategory.value = newCategory || ''
+    currentPage.value = 1
+    loadArticles()
+  }
+})
 </script>
 
 <style scoped>
@@ -143,6 +195,12 @@ const totalPages = computed(() =>
   font-size: 2rem;
   color: var(--text-primary);
   margin-bottom: 1.5rem;
+}
+
+.page-subtitle {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
 }
 
 .search-bar {
@@ -285,7 +343,35 @@ const totalPages = computed(() =>
   cursor: not-allowed;
 }
 
-.page-info {
+.page-numbers {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.page-number {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  background: var(--card-bg);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.page-number:hover {
+  background: var(--hover-bg);
+  color: var(--primary-color);
+}
+
+.page-number.active {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.loading, .no-data {
+  text-align: center;
+  padding: 2rem;
   color: var(--text-secondary);
 }
 
@@ -319,6 +405,15 @@ const totalPages = computed(() =>
 
   .article-title {
     font-size: 1.25rem;
+  }
+
+  .pagination {
+    flex-wrap: wrap;
+  }
+  
+  .page-numbers {
+    flex-wrap: wrap;
+    justify-content: center;
   }
 }
 </style> 

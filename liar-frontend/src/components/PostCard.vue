@@ -20,7 +20,6 @@ defineProps({
       <h2 class="post-title">{{ post.title }}</h2>
       <p class="post-summary">{{ post.summary }}</p>
       <div class="post-footer">
-        <span class="read-time">{{ post.readTime }}</span>
         <a href="#" class="read-more">
           <span>阅读全文</span>
           <svg class="arrow-icon" viewBox="0 0 24 24" width="16" height="16">
@@ -102,7 +101,7 @@ defineProps({
 
 .post-footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: right;
   align-items: center;
   padding-top: 1rem;
   border-top: 1px solid rgba(255, 255, 255, 0.1);

@@ -13,20 +13,4 @@ interface SettingService : IService<Setting> {
         summary: String,
         footer: String
     ): Boolean
-
-    fun getTitle(): String
-
-    fun setTitle(title: String)
-
-    fun getHeadline(): String
-
-    fun setHeadline(headline: String)
-
-    fun getSummary(): String
-
-    fun setSummary(summary: String)
-
-    fun getFooter(): String
-
-    fun setFooter(footer: String)
 }

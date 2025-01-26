@@ -27,36 +27,4 @@ class SettingServiceImpl : ServiceImpl<SettingMapper, Setting>(), SettingService
             this.footer = footer
         })
     }
-
-    override fun getTitle(): String {
-        return getSetting().title!!
-    }
-
-    override fun setTitle(title: String) {
-        updateById(getSetting().apply { this.title = title })
-    }
-
-    override fun getHeadline(): String {
-        return getSetting().headline!!
-    }
-
-    override fun setHeadline(headline: String) {
-        updateById(getSetting().apply { this.headline = headline })
-    }
-
-    override fun getSummary(): String {
-        return getSetting().summary!!
-    }
-
-    override fun setSummary(summary: String) {
-        updateById(getSetting().apply { this.summary = summary })
-    }
-
-    override fun getFooter(): String {
-        return getSetting().footer!!
-    }
-
-    override fun setFooter(footer: String) {
-        updateById(getSetting().apply { this.footer = footer })
-    }
 }

@@ -8,8 +8,20 @@ export function getCategoryList() {
   })
 }
 
-// 暂时导出空函数，等后端接口完成后再实现
-export const getCategories = () => {}
-export const createCategory = () => {}
-export const updateCategory = () => {}
-export const deleteCategory = () => {} 
+export function getCategoryCount() {
+    return request({
+        url: '/category/count',
+        method: 'get'
+    })
+}
+
+// 获取分类下的文章数量
+export function getArticleCountByCategoryId(categoryId) {
+    return request({
+        url: `/category/article-count`,
+        method: 'get',
+        params: {
+            id: categoryId
+        }
+    })
+}

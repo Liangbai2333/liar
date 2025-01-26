@@ -8,8 +8,9 @@ export function getTagList() {
   })
 }
 
-// 暂时导出空函数，等后端接口完成后再实现
-export const getTags = () => {}
-export const createTag = () => {}
-export const updateTag = () => {}
-export const deleteTag = () => {} 
+export function getTagCount() {
+  return request({
+    url: '/tag/count',
+    method: 'get'
+  })
+}

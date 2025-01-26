@@ -14,7 +14,7 @@ class ArticleController {
     lateinit var articleService: ArticleService
 
     @PostMapping("view/{id}")
-    suspend fun viewArticle(@PathVariable("id") id: Int): Result<Unit> {
+    fun viewArticle(@PathVariable("id") id: Int): Result<Unit> {
         return articleService.viewArticle(id).run { Result.empty() }
     }
 
@@ -36,4 +36,7 @@ class ArticleController {
     ): Result<List<ArticleVO>> {
         return articleService.getArticleList(page, size, categoryId, tagId, authorId, keyword, sort, order).run { Result.success(this) }
     }
+
+    @GetMapping("count")
+    fun getArticleCount() = articleService.count().run { Result.success(this) }
 }
