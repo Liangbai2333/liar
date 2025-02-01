@@ -1,177 +1,167 @@
 <template>
-  <div class="login-container">
-    <div class="login-box">
-      <h1 class="login-title">管理员登录</h1>
-      <div class="login-form">
-        <div class="form-item">
-          <label>用户名</label>
-          <input
-            v-model="loginForm.username"
-            type="text"
-            class="input-field"
+  <div class="login">
+    <div class="login-container">
+      <h1 class="title">管理员登录</h1>
+      <form @submit.prevent="handleLogin" class="login-form">
+        <div class="error-message" v-if="authStore.error">
+          {{ authStore.error }}
+        </div>
+        <div class="form-group">
+          <label for="username">用户名</label>
+          <input 
+            type="text" 
+            id="username"
+            v-model="username"
+            :disabled="authStore.loading"
             placeholder="请输入用户名"
-            @keyup.enter="handleLogin"
+            required
           >
         </div>
-        <div class="form-item">
-          <label>密码</label>
-          <input
-            v-model="loginForm.password"
-            type="password"
-            class="input-field"
+        <div class="form-group">
+          <label for="password">密码</label>
+          <input 
+            type="password" 
+            id="password"
+            v-model="password"
+            :disabled="authStore.loading"
             placeholder="请输入密码"
-            @keyup.enter="handleLogin"
+            required
           >
         </div>
-        <div class="form-item">
-          <label class="checkbox-label">
-            <input type="checkbox" v-model="loginForm.remember">
-            记住我
-          </label>
-        </div>
-        <div class="form-item">
-          <button class="login-btn" @click="handleLogin" :disabled="isLoading">
-            {{ isLoading ? '登录中...' : '登录' }}
-          </button>
-        </div>
-      </div>
+        <button 
+          type="submit" 
+          class="login-btn"
+          :disabled="authStore.loading"
+        >
+          {{ authStore.loading ? '登录中...' : '登录' }}
+        </button>
+      </form>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useAuthStore } from '../../stores/auth'
 
-const router = useRouter()
-const isLoading = ref(false)
-const loginForm = ref({
-  username: '',
-  password: '',
-  remember: false
-})
+const authStore = useAuthStore()
+const username = ref('')
+const password = ref('')
 
 const handleLogin = async () => {
-  if (!loginForm.value.username || !loginForm.value.password) {
-    // TODO: 添加提示信息
-    return
-  }
-
-  try {
-    isLoading.value = true
-    // TODO: 实现登录逻辑
-    // const response = await login(loginForm.value)
-    // if (response.success) {
-    //   router.push('/admin/dashboard')
-    // }
-    
-    // 临时模拟登录成功
-    setTimeout(() => {
-      router.push('/admin/dashboard')
-    }, 1000)
-  } catch (error) {
-    console.error('登录失败:', error)
-  } finally {
-    isLoading.value = false
-  }
+  if (!username.value || !password.value) return
+  await authStore.loginAction(username.value, password.value)
 }
 </script>
 
 <style scoped>
-.login-container {
+.login {
   min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--bg-primary);
-  padding: 20px;
+  background: linear-gradient(to right, var(--bg-primary), var(--bg-secondary));
 }
 
-.login-box {
+.login-container {
+  background: var(--card-bg);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   width: 100%;
   max-width: 400px;
-  background-color: var(--card-bg);
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  padding: 40px;
+  border: 1px solid var(--border-color);
 }
 
-.login-title {
-  font-size: 24px;
-  font-weight: bold;
-  color: var(--text-primary);
+.title {
   text-align: center;
-  margin-bottom: 40px;
+  color: var(--text-primary);
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
 }
 
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1.5rem;
 }
 
-.form-item {
+.form-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 0.5rem;
 }
 
-.form-item label {
+.form-group label {
   color: var(--text-primary);
-  font-size: 14px;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
-.input-field {
-  width: 100%;
-  padding: 12px;
+.form-group input {
+  padding: 0.75rem 1rem;
   border: 1px solid var(--border-color);
-  border-radius: 4px;
-  background-color: var(--bg-primary);
+  border-radius: 6px;
+  background: var(--bg-primary);
   color: var(--text-primary);
-  font-size: 14px;
+  font-size: 1rem;
   transition: all 0.3s ease;
 }
 
-.input-field:focus {
+.form-group input:focus {
   outline: none;
   border-color: var(--primary-color);
-  box-shadow: 0 0 0 2px rgba(var(--primary-color-rgb), 0.1);
+  box-shadow: 0 0 0 2px var(--primary-color-light);
 }
 
-.checkbox-label {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--text-primary);
-  font-size: 14px;
-  cursor: pointer;
+.form-group input:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 .login-btn {
-  width: 100%;
-  padding: 12px;
-  border: none;
-  border-radius: 4px;
-  background-color: var(--primary-color);
+  background: var(--primary-color);
   color: white;
-  font-size: 16px;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .login-btn:hover:not(:disabled) {
-  opacity: 0.9;
+  background: var(--primary-color-dark);
 }
 
 .login-btn:disabled {
-  background-color: var(--border-color);
+  opacity: 0.7;
   cursor: not-allowed;
 }
 
-@media (max-width: 480px) {
-  .login-box {
-    padding: 20px;
+.error-message {
+  background: var(--error-bg, #fef2f2);
+  color: var(--error-text, #dc2626);
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--error-border, #fecaca);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.error-message::before {
+  content: "⚠";
+  font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+  .login-container {
+    margin: 1rem;
+    padding: 1.5rem;
   }
 }
 </style> 

@@ -2,59 +2,38 @@
   <div class="about">
     <header class="page-header">
       <div class="header-content">
-        <div class="profile-header">
+        <div class="profile-header" v-if="userStore.users[0]">
           <div class="avatar-container">
-            <img src="@/assets/avatar.jpg" alt="作者头像">
+            <img :src="userStore.users[0].avatar" :alt="userStore.users[0].username">
           </div>
-          <h1 class="name">靓白</h1>
-          <p class="motto">" 保持热爱，奔赴山海 "</p>
+          <h1 class="name">{{ userStore.users[0].username }}</h1>
+          <p class="motto">" {{ userStore.users[0].motto }} "</p>
         </div>
       </div>
     </header>
 
-    <main class="content">
+    <main class="content" v-if="userStore.users[0]">
       <div class="about-grid">
         <!-- 个人简介 -->
         <section class="about-section">
           <h2>👋 关于我</h2>
           <div class="section-content">
-            <p>你好！我是靓白，一名热爱技术的后端开发工程师。</p>
-            <p>目前专注于 Java 后端开发，同时也对前端技术充满兴趣。</p>
-            <p>热衷于探索新技术，喜欢分享技术心得和学习经验。</p>
+            <p>{{ userStore.users[0].description }}</p>
           </div>
         </section>
 
         <!-- 技术栈 -->
-        <section class="about-section">
+        <section class="about-section" v-if="userStore.users[0].skills?.length">
           <h2>💻 技术栈</h2>
           <div class="section-content">
             <div class="skills-grid">
-              <div class="skill-category">
-                <h3>后端开发</h3>
+              <div v-for="(skills, category) in groupedSkills" :key="category" class="skill-category">
+                <h3>{{ category }}</h3>
                 <div class="skill-tags">
-                  <span class="skill-tag">Java</span>
-                  <span class="skill-tag">Spring Boot</span>
-                  <span class="skill-tag">Spring Cloud</span>
-                  <span class="skill-tag">MyBatis</span>
-                  <span class="skill-tag">MySQL</span>
-                  <span class="skill-tag">Redis</span>
-                </div>
-              </div>
-              <div class="skill-category">
-                <h3>前端开发</h3>
-                <div class="skill-tags">
-                  <span class="skill-tag">Vue.js</span>
-                  <span class="skill-tag">JavaScript</span>
-                  <span class="skill-tag">HTML/CSS</span>
-                </div>
-              </div>
-              <div class="skill-category">
-                <h3>开发工具</h3>
-                <div class="skill-tags">
-                  <span class="skill-tag">Git</span>
-                  <span class="skill-tag">Docker</span>
-                  <span class="skill-tag">Linux</span>
-                  <span class="skill-tag">IDEA</span>
+                  <span v-for="skill in skills" :key="skill.id" class="skill-tag">
+                    <span class="skill-icon">{{ skill.icon }}</span>
+                    {{ skill.name }}
+                  </span>
                 </div>
               </div>
             </div>
@@ -62,47 +41,38 @@
         </section>
 
         <!-- 兴趣爱好 -->
-        <section class="about-section">
+        <section class="about-section" v-if="userStore.users[0].interests?.length">
           <h2>🌟 兴趣爱好</h2>
           <div class="section-content">
             <div class="interests-grid">
-              <div class="interest-item">
-                <span class="interest-icon">📚</span>
-                <span class="interest-name">阅读</span>
-              </div>
-              <div class="interest-item">
-                <span class="interest-icon">🎮</span>
-                <span class="interest-name">游戏</span>
-              </div>
-              <div class="interest-item">
-                <span class="interest-icon">🎵</span>
-                <span class="interest-name">音乐</span>
-              </div>
-              <div class="interest-item">
-                <span class="interest-icon">✍️</span>
-                <span class="interest-name">写作</span>
+              <div v-for="interest in userStore.users[0].interests" :key="interest.id" class="interest-item">
+                <span class="interest-icon">
+                  <img :src="interest.icon" class="interest-icon-img">
+                </span>
+                <span class="interest-name">{{ interest.name }}</span>
+                <span class="interest-value">{{ interest.description }}</span>
               </div>
             </div>
           </div>
         </section>
 
         <!-- 联系方式 -->
-        <section class="about-section">
+        <section class="about-section" v-if="userStore.users[0].contacts?.length">
           <h2>📫 联系我</h2>
           <div class="section-content">
             <div class="contact-list">
-              <a href="https://github.com/Liangbai2333" target="_blank" class="contact-item">
-                <span class="contact-icon">🐱</span>
-                <span class="contact-text">GitHub</span>
+              <a v-for="contact in userStore.users[0].contacts" 
+                 :key="contact.id"
+                 :href="contact.link"
+                 target="_blank"
+                 class="contact-item"
+              >
+                <span class="contact-icon">
+                  <img :src="contact.icon" :alt="contact.type" class="contact-icon-img">
+                </span>
+                <span class="contact-name">{{ contact.type }}</span>
+                <span class="contact-value">{{ contact.value }}</span>
               </a>
-              <div class="contact-item">
-                <span class="contact-icon">📧</span>
-                <span class="contact-text">liangbai2333@outlook.com</span>
-              </div>
-              <div class="contact-item">
-                <span class="contact-icon">💬</span>
-                <span class="contact-text">QQ: 1739566851</span>
-              </div>
             </div>
           </div>
         </section>
@@ -110,6 +80,30 @@
     </main>
   </div>
 </template>
+
+<script setup>
+import { onMounted, computed } from 'vue'
+import { useUserStore } from '../stores/user'
+
+const userStore = useUserStore()
+
+// 按分类分组技能
+const groupedSkills = computed(() => {
+  if (!userStore.users[0]?.skills) return {}
+  return userStore.users[0].skills.reduce((groups, skill) => {
+    const category = skill.category.name
+    if (!groups[category]) {
+      groups[category] = []
+    }
+    groups[category].push(skill)
+    return groups
+  }, {})
+})
+
+onMounted(async () => {
+  await userStore.fetchUsers()
+})
+</script>
 
 <style scoped>
 .about {
@@ -216,30 +210,53 @@
 .skill-tag {
   background: var(--hover-bg);
   color: var(--primary-color);
-  padding: 0.25rem 0.75rem;
+  padding: 0.5rem 1rem;
   border-radius: 16px;
   font-size: 0.9rem;
-}
-
-.interests-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  gap: 1.5rem;
-  text-align: center;
-}
-
-.interest-item {
   display: flex;
-  flex-direction: column;
   align-items: center;
   gap: 0.5rem;
 }
 
+.skill-icon {
+  font-size: 1.1rem;
+}
+
+.interests-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.interest-item {
+  display: grid;
+  grid-template-columns: 24px auto 1fr;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+}
+
 .interest-icon {
-  font-size: 2rem;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.interest-icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
 }
 
 .interest-name {
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-right: 0.5rem;
+}
+
+.interest-value {
   color: var(--text-secondary);
 }
 
@@ -250,20 +267,36 @@
 }
 
 .contact-item {
-  display: flex;
+  display: grid;
+  grid-template-columns: 24px auto 1fr;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.5rem;
   color: var(--text-secondary);
   text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-a.contact-item:hover {
-  color: var(--primary-color);
 }
 
 .contact-icon {
-  font-size: 1.25rem;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.contact-icon-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.contact-name {
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-right: 0.5rem;
+}
+
+.contact-value {
+  color: var(--text-secondary);
 }
 
 @media (max-width: 768px) {
@@ -288,8 +321,10 @@ a.contact-item:hover {
     padding: 1.5rem;
   }
 
-  .interests-grid {
-    grid-template-columns: repeat(2, 1fr);
+  .interest-item,
+  .contact-item {
+    grid-template-columns: 24px auto 1fr;
+    gap: 0.5rem;
   }
 }
 </style> 

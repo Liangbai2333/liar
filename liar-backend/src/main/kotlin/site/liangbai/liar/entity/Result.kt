@@ -3,7 +3,7 @@ package site.liangbai.liar.entity
 import com.alibaba.fastjson2.JSON
 import com.alibaba.fastjson2.JSONWriter
 
-data class Result<T>(val code: Int, val data: T? = null, val msg: String) {
+data class Result<T>(val code: Int, val data: T? = null, val message: String) {
     /**
      * 快速将当前实体转换为JSON字符串格式
      * @return JSON字符串

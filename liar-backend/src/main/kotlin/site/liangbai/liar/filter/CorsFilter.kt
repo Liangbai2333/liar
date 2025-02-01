@@ -60,6 +60,6 @@ class CorsFilter : HttpFilter() {
      * @return 解析得到的请求头值
      */
     private fun resolveOrigin(request: HttpServletRequest): String {
-        return if (origin == "*") request.getHeader("Origin") else origin!!
+        return if (origin == "*") "*" else origin!!
     }
 }

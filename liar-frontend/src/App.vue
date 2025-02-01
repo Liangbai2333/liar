@@ -2,7 +2,11 @@
   <div class="app">
     <Navbar />
     <main class="main-container">
-      <router-view />
+      <router-view v-slot="{ Component }">
+        <transition name="fade" mode="out-in">
+            <component :is="Component" />
+        </transition>
+      </router-view>
     </main>
     <footer class="footer">
       <p>© 2024 Liangbai2333. All rights reserved.</p>
@@ -40,5 +44,21 @@ import Navbar from './components/Navbar.vue'
   .main-container {
     padding: 10px;
   }
+}
+
+/* 全局页面过渡效果 */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s ease;
+}
+
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.fade-enter-to,
+.fade-leave-from {
+  opacity: 1;
 }
 </style>

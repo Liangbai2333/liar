@@ -6,6 +6,7 @@ import AboutView from '../views/AboutView.vue'
 import ArticleDetail from '../views/article/ArticleDetail.vue'
 import AdminLayout from '../layouts/AdminLayout.vue'
 import LoginView from '../views/admin/LoginView.vue'
+import { useAuthStore } from '../stores/auth'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -47,6 +48,9 @@ const router = createRouter({
     {
       path: '/admin',
       component: AdminLayout,
+      meta: {
+        requiresAuth: true  // 添加认证要求
+      },
       children: [
         {
           path: '',
@@ -57,7 +61,8 @@ const router = createRouter({
           name: 'admin-dashboard',
           component: () => import('../views/admin/DashboardView.vue'),
           meta: {
-            title: '仪表盘'
+            title: '仪表盘',
+            requiresAuth: true
           }
         },
         {
@@ -65,7 +70,8 @@ const router = createRouter({
           name: 'admin-articles',
           component: () => import('../views/admin/ArticlesView.vue'),
           meta: {
-            title: '文章管理'
+            title: '文章管理',
+            requiresAuth: true
           }
         },
         {
@@ -73,7 +79,8 @@ const router = createRouter({
           name: 'admin-article-create',
           component: () => import('../views/admin/ArticleEditView.vue'),
           meta: {
-            title: '创建文章'
+            title: '创建文章',
+            requiresAuth: true
           }
         },
         {
@@ -81,7 +88,8 @@ const router = createRouter({
           name: 'admin-article-edit',
           component: () => import('../views/admin/ArticleEditView.vue'),
           meta: {
-            title: '编辑文章'
+            title: '编辑文章',
+            requiresAuth: true
           }
         },
         {
@@ -89,7 +97,8 @@ const router = createRouter({
           name: 'admin-categories',
           component: () => import('../views/admin/CategoriesView.vue'),
           meta: {
-            title: '分类管理'
+            title: '分类管理',
+            requiresAuth: true
           }
         },
         {
@@ -97,7 +106,8 @@ const router = createRouter({
           name: 'admin-tags',
           component: () => import('../views/admin/TagsView.vue'),
           meta: {
-            title: '标签管理'
+            title: '标签管理',
+            requiresAuth: true
           }
         },
         {
@@ -105,7 +115,8 @@ const router = createRouter({
           name: 'admin-comments',
           component: () => import('../views/admin/CommentsView.vue'),
           meta: {
-            title: '评论管理'
+            title: '评论管理',
+            requiresAuth: true
           }
         },
         {
@@ -113,7 +124,8 @@ const router = createRouter({
           name: 'admin-settings',
           component: () => import('../views/admin/SettingsView.vue'),
           meta: {
-            title: '系统设置'
+            title: '系统设置',
+            requiresAuth: true
           }
         }
       ]
@@ -130,9 +142,11 @@ router.beforeEach((to, from, next) => {
 
   // 检查是否需要登录认证
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    // TODO: 检查登录状态
-    const isLoggedIn = localStorage.getItem('token')
-    if (!isLoggedIn) {
+    const authStore = useAuthStore()
+    
+    // 检查是否已登录且token未过期
+    if (!authStore.token || !authStore.checkToken()) {
+      // 未登录或token过期，跳转到登录页
       next({
         path: '/admin/login',
         query: { redirect: to.fullPath }
@@ -141,7 +155,12 @@ router.beforeEach((to, from, next) => {
       next()
     }
   } else {
-    next()
+    // 如果是访问登录页且已经登录，直接跳转到仪表盘
+    if (to.path === '/admin/login' && useAuthStore().checkToken()) {
+      next('/admin/dashboard')
+    } else {
+      next()
+    }
   }
 })
 

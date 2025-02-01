@@ -12,6 +12,9 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.CorsConfigurationSource
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 import site.liangbai.liar.entity.Result
 import site.liangbai.liar.entity.Result.Companion.success
 import site.liangbai.liar.entity.vo.response.auth.AuthorizeVO
@@ -36,18 +39,19 @@ class SecurityConfiguration {
     fun filterChain(httpSecurity: HttpSecurity): SecurityFilterChain {
         return httpSecurity
             .authorizeHttpRequests { conf ->
-                conf.requestMatchers("/api/admin/**").authenticated()
+                conf.requestMatchers("/api/admin/user/**", "/error").permitAll()
+                    .requestMatchers("/api/admin/**").authenticated()
                     .requestMatchers("/api/**").permitAll()
                     .anyRequest().permitAll()
             }
             .formLogin { conf ->
-                conf.loginProcessingUrl("/api/admin/auth/login")
+                conf.loginProcessingUrl("/api/admin/user/login")
                     .failureHandler(this::handleProcess)
                     .successHandler(this::handleProcess)
                     .permitAll()
             }
             .logout { conf ->
-                conf.logoutUrl("/api/admin/auth/logout")
+                conf.logoutUrl("/api/admin/user/logout")
                     .logoutSuccessHandler(this::onLogoutSuccess)
             }
             .exceptionHandling { conf ->
@@ -132,11 +136,23 @@ class SecurityConfiguration {
     ) {
         response.contentType = "application/json;charset=utf-8"
         val writer = response.writer
-        val authorization = request.getHeader("Authorization")
+        val authorization = request.getParameter("Authorization")
         if (utils.invalidateJwt(authorization)) {
             writer.write(success("退出登录成功").asJsonString())
             return
         }
         writer.write(Result.failure(400, "退出登录失败").asJsonString())
     }
+//
+//    @Bean
+//    fun corsConfigurationSource(): CorsConfigurationSource {
+//        val source = UrlBasedCorsConfigurationSource()
+//        val config = CorsConfiguration()
+//        config.allowedOrigins = listOf("*")
+//        config.allowedMethods = listOf("GET", "POST", "PUT", "DELETE", "OPTIONS")
+//        config.allowedHeaders = listOf("Authorization", "Content-Type")
+//        config.allowCredentials = true
+//        source.registerCorsConfiguration("/**", config)
+//        return source
+//    }
 }

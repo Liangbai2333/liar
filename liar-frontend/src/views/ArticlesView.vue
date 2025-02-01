@@ -98,7 +98,6 @@ import { ref, computed, onMounted, watch } from 'vue'
 import { useArticleStore } from '../stores/article'
 import { useCategoryStore } from '../stores/category'
 import { useRoute } from 'vue-router'
-import { storeToRefs } from 'pinia'
 
 const route = useRoute()
 const articleStore = useArticleStore()

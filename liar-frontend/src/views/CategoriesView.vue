@@ -10,34 +10,23 @@
     <main class="content">
       <div class="categories-grid">
         <div v-for="category in categoryStore.categories" :key="category.id" class="category-card">
-          <div class="category-icon" :style="{ backgroundColor: category.color + '10' }">
-            <span class="icon">{{ category.icon }}</span>
+          <div class="category-header">
+            <div class="category-icon">
+              <img :src="category.icon" :alt="category.name" v-if="category.icon">
+              <span class="default-icon" v-else>📚</span>
+            </div>
+            <div class="category-info">
+              <h2 class="category-name">{{ category.name }}</h2>
+              <p class="category-count">{{ category.count || 0 }} 篇文章</p>
+            </div>
           </div>
-          <h2 class="category-name">{{ category.name }}</h2>
-          <p class="category-count">{{ category.count }} 篇文章</p>
-          <p class="category-desc">{{ category.description }}</p>
+          <p class="category-desc" v-if="category.description">{{ category.description }}</p>
           <router-link :to="{ path: '/articles', query: { category: category.id }}" class="view-more">
             查看文章
             <span class="arrow">→</span>
           </router-link>
         </div>
       </div>
-
-      <section class="tags-section">
-        <h2 class="section-title">热门标签</h2>
-        <div class="tags-cloud">
-          <router-link 
-            v-for="tag in tagStore.tags" 
-            :key="tag.id"
-            :to="{ path: '/articles', query: { tag: tag.id }}"
-            class="tag"
-            :style="{ fontSize: (tag.count / tagStore.total * 0.5 + 1) + 'rem' }"
-          >
-            {{ tag.name }}
-            <span class="tag-count">({{ tag.count }})</span>
-          </router-link>
-        </div>
-      </section>
     </main>
   </div>
 </template>
@@ -106,45 +95,76 @@ onMounted(async () => {
   background: var(--card-bg);
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  padding: 2rem;
+  padding: 1.5rem;
   transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
 }
 
 .category-card:hover {
   transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border-color: var(--primary-color);
+}
+
+.category-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
 }
 
 .category-icon {
-  width: 60px;
-  height: 60px;
+  width: 48px;
+  height: 48px;
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 1.5rem;
+  background: var(--hover-bg);
+  flex-shrink: 0;
+  overflow: hidden;
 }
 
-.icon {
-  font-size: 2rem;
+.category-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.default-icon {
+  font-size: 1.5rem;
+}
+
+.category-info {
+  flex: 1;
 }
 
 .category-name {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: var(--text-primary);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
+  font-weight: 600;
 }
 
 .category-count {
-  color: var(--text-secondary);
-  font-size: 0.9rem;
-  margin-bottom: 1rem;
+  color: var(--primary-color);
+  font-size: 0.875rem;
+  font-weight: 500;
 }
 
 .category-desc {
   color: var(--text-secondary);
-  margin-bottom: 1.5rem;
+  font-size: 0.875rem;
   line-height: 1.6;
+  margin-bottom: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  flex: 1;
 }
 
 .view-more {
@@ -153,7 +173,11 @@ onMounted(async () => {
   color: var(--primary-color);
   text-decoration: none;
   font-weight: 500;
+  font-size: 0.875rem;
+  padding: 0.5rem 0;
   transition: all 0.3s ease;
+  border-top: 1px solid var(--border-color);
+  width: 100%;
 }
 
 .arrow {
@@ -161,45 +185,12 @@ onMounted(async () => {
   transition: transform 0.3s ease;
 }
 
+.view-more:hover {
+  color: var(--primary-color);
+}
+
 .view-more:hover .arrow {
   transform: translateX(4px);
-}
-
-.tags-section {
-  margin-bottom: 4rem;
-}
-
-.section-title {
-  font-size: 1.8rem;
-  color: var(--text-primary);
-  margin-bottom: 2rem;
-  text-align: center;
-}
-
-.tags-cloud {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-}
-
-.tag {
-  color: var(--primary-color);
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
-  background: var(--hover-bg);
-  transition: all 0.3s ease;
-}
-
-.tag:hover {
-  background: var(--primary-color);
-  color: white;
-}
-
-.tag-count {
-  font-size: 0.85em;
-  opacity: 0.8;
 }
 
 @media (max-width: 768px) {

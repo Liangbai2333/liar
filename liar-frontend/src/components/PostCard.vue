@@ -21,7 +21,7 @@ defineProps({
       <p class="post-summary">{{ post.summary }}</p>
       <div class="post-footer">
         <a href="#" class="read-more">
-          <span>阅读全文</span>
+          <router-link :to="'/article/' + post.id">阅读全文</router-link>
           <svg class="arrow-icon" viewBox="0 0 24 24" width="16" height="16">
             <path fill="currentColor" d="M13.172 12l-4.95-4.95 1.414-1.414L16 12l-6.364 6.364-1.414-1.414z" />
           </svg>
